@@ -44,7 +44,7 @@ html, body {
   background-color: var(--header-bg-color); /* Green background */
   border-radius: 0px;
   box-shadow: var(--main-box-shadow);
-  padding: 37px 25px;
+  padding: 35px 20px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;

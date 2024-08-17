@@ -21,7 +21,7 @@ body {
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem; /* Slightly larger for prominence */
   margin: 0;
 }
 
@@ -31,14 +31,19 @@ body {
 
 .content h2 {
   color: #6A1B9A;
-  font-size: 1.75rem;
-  margin-bottom: 10px;
+  font-size: 2rem; /* Larger for better readability */
+  margin-bottom: 15px;
 }
 
-.content p {
-  font-size: 1.2rem;
-  line-height: 1.6;
+.content p, .content ul {
+  font-size: 1.3rem; /* Increased for easier reading */
+  line-height: 1.8;
   margin-bottom: 20px;
+}
+
+.content ul {
+  padding-left: 20px;
+  list-style-type: disc;
 }
 
 address {

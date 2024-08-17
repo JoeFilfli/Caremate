@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './HomePage.css';
-import { getCurrentUser} from 'aws-amplify/auth';
-
+import { getCurrentUser } from 'aws-amplify/auth';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -16,9 +15,36 @@ function HomePage() {
         navigate('/signin');
       }
     } catch (error) {
-      // Handle the error appropriately
       console.error('Error checking current user:', error);
       navigate('/signin');
+    }
+  };
+
+  const handleSignUpClick = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        navigate('/forum');
+      } else {
+        navigate('/signup');
+      }
+    } catch (error) {
+      console.error('Error checking current user:', error);
+      navigate('/signup');
+    }
+  };
+
+  const handleGetStartedClick = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        navigate('/forum');
+      } else {
+        navigate('/signup');
+      }
+    } catch (error) {
+      console.error('Error checking current user:', error);
+      navigate('/signup');
     }
   };
 
@@ -26,10 +52,10 @@ function HomePage() {
     <div className="home-page">
       <header className="header">
         <div className="logo-container">
-          <img src="/images/logo.png" alt="CareMate Logo" className="logo" />
-          <h1>CareMate</h1>
+          <img src="/images/logo.png" alt="Vivia Logo" className="logo" />
+          <h1>Vivia</h1>
         </div>
-        <h2>Your trusted companion for elderly care.</h2>
+        <h2 style={{ fontSize: '2rem' }}>Empowering Connections, Enhancing Care.</h2>
         <nav className="nav-links">
           <Link to="/about">About Us</Link>
         </nav>
@@ -39,15 +65,19 @@ function HomePage() {
           <source src="/videos/intro-video.mp4" type="video/mp4" />
         </video>
         <div className="intro-text">
-          <h2>Welcome to CareMate</h2>
-          <p>Connecting seniors with community volunteers for daily assistance and social engagement.</p>
-          <Link to="/signup" className="cta-button">Get Started</Link>
+        <h2>Welcome to Vivia</h2>
+        <h2 className="subtitle">Connecting seniors with community volunteers for daily assistance and social engagement.</h2>
+          <button onClick={handleGetStartedClick} className="cta-button">Get Started</button>
         </div>
       </section>
+      <div className="buttons">
+        <button onClick={handleSignUpClick} className="button">Sign Up</button>
+        <button onClick={handleSignInClick} className="button">Sign In</button>
+      </div>
       <section className="description">
-        <h2>About CareMate</h2>
+        <h2>About Vivia</h2>
         <p className="large-text">
-          CareMate is a digital platform dedicated to enhancing the lives of seniors by connecting them with community volunteers. Our mission is to reduce isolation and increase accessibility to essential services like home repairs, gardening, companionship, and more. Join us in making a positive impact in the lives of the elderly.
+          Vivia is a digital platform dedicated to enhancing the lives of seniors by connecting them with community volunteers. Our mission is to reduce isolation and increase accessibility to essential services like home repairs, gardening, companionship, and more. Join us in making a positive impact in the lives of the elderly.
         </p>
         <h2>Our Services</h2>
         <ul className="offer-list">
@@ -78,7 +108,7 @@ function HomePage() {
         <div className="testimonial-list">
           <div className="testimonial-item">
             <img src="/images/user1.jpg" alt="User 1" className="testimonial-image" />
-            <p>"CareMate has been a lifesaver for me. The volunteers are so kind and helpful!"</p>
+            <p>"Vivia has been a lifesaver for me. The volunteers are so kind and helpful!"</p>
             <span>- Jane Doe</span>
           </div>
           <div className="testimonial-item">
@@ -108,12 +138,9 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <div className="buttons">
-        <Link to="/signup" className="button">Sign Up</Link>
-        <button onClick={handleSignInClick} className="button">Sign In</button>
-      </div>
+     
       <footer className="footer">
-        <p>&copy; 2024 CareMate. All rights reserved.</p>
+        <p>&copy; 2024 Vivia. All rights reserved.</p>
         <nav>
           <Link to="/about">About Us</Link>
           <Link to="/privacy">Privacy Policy</Link>

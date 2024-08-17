@@ -75,7 +75,7 @@ function EmergencyPage() {
         </div>
       </section>
       <footer className="footer">
-        <p>&copy; 2024 CareMate. All rights reserved.</p>
+        <p>&copy; 2024 Vivia. All rights reserved.</p>
         <nav>
           <a href="/">Home</a>
           <a href="/about">About Us</a>

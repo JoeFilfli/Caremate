@@ -5,13 +5,13 @@ function AboutPage() {
   return (
     <div className="about-page">
       <header className="header">
-        <h1>About CareMate</h1>
+        <h1>About Vivia</h1>
         <h2>Our Mission, Vision, and Team</h2>
       </header>
       <section className="mission-section">
         <h2>Our Mission</h2>
         <p>
-          At CareMate, our mission is to enhance the quality of life for seniors by connecting them with dedicated community volunteers. We strive to foster a sense of belonging and support through meaningful interactions and reliable assistance.
+          At Vivia, our mission is to enhance the quality of life for seniors by connecting them with dedicated community volunteers. We strive to foster a sense of belonging and support through meaningful interactions and reliable assistance.
         </p>
       </section>
       <section className="vision-section">
@@ -62,7 +62,7 @@ function AboutPage() {
         </div>
       </section>
       <footer className="footer">
-        <p>&copy; 2024 CareMate. All rights reserved.</p>
+        <p>&copy; 2024 Vivia. All rights reserved.</p>
         <nav>
           <a href="/contact">Contact Us</a>
           <a href="/privacy">Privacy Policy</a>
