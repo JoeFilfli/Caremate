@@ -36,22 +36,22 @@ function SignUpPage() {
   const [country, setCountry] = useState(null);
   const client = generateClient();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    const checkCurrentUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user) {
-          await signOut();
-        }
-      } catch (error) {
-        //continue 
+  const handleAlreadyHaveAccountClick = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        // If the user is already signed in, navigate to the forum or another page
+        navigate('/forum');
+      } else {
+        // If the user is not signed in, navigate to the sign-in page
+        navigate('/signin');
       }
-    };
-
-    checkCurrentUser();
-  }, []);
+    } catch (error) {
+      console.error('Error checking current user:', error);
+      // Navigate to sign-in page if there's an error
+      navigate('/signin');
+    }
+  };
 
   const resizeImage = (file, maxWidth, maxHeight, callback) => {
     const img = document.createElement('img');
@@ -183,7 +183,8 @@ function SignUpPage() {
           },
         });
       } catch (error) {
-        navigate('/confirm-signup', { state: { username: email, password } });
+        alert(error);
+        console.log(error);
       }
 
       // Handle auto sign-in after sign-up
@@ -329,9 +330,11 @@ function SignUpPage() {
           <button type="submit">Sign Up</button>
           {error && <p className="error">{error}</p>}
         </form>
-        <Link to='/signin' className="link_to_signin">
+        <div className="centered">
+        <button onClick={handleAlreadyHaveAccountClick} className="link-button">
           Already have an account? Sign in
-        </Link>       
+        </button>
+      </div>       
       </section>
     </div>
   );

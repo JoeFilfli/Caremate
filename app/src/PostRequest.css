@@ -165,3 +165,39 @@ body {
   align-self: flex-end; /* Aligns the button to the right */
   margin-top: 10px;
 }
+
+.pr-picture-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pr-picture-preview-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pr-picture-preview {
+  width: 60px; /* Show small icons of the pictures */
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pr-remove-picture-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

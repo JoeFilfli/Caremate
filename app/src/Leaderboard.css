@@ -1,137 +1,147 @@
 /* General styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Leaderboard page container */
-  .leaderboard-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
-    box-sizing: border-box;
-    width: 100%;
-  }
-  
-  /* Header styling */
-  .leaderboard-header {
-    width: 100%;
-    background-color: #4CAF50; /* Green background */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 46px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .leaderboard-title {
-    margin: 0;
-    font-size: 2rem;
-    color: white;
-  }
-  
-  /* Main content styling */
-  .leaderboard-main {
-    width: 50%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-    text-align: left;
-    font-size: 1rem;
-  }
-  
-  .leaderboard-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .leaderboard-item {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Leaderboard page container */
+.leaderboard-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Header styling */
+.leaderboard-header {
+  width: 100%;
+  background-color: #4CAF50; /* Green background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 46px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboard-title {
+  margin: 0;
+  font-size: 2rem;
+  color: white;
+}
+
+/* Main content styling */
+.leaderboard-main {
+  width: 50%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.leaderboard-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.leaderboard-rank {
+  font-size: 1.5rem;
+  margin-right: 20px;
+}
+
+.leaderboard-picture {
+  width: 80px;
+  height: 80px; /* Make the profile picture larger */
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.leaderboard-details {
+  text-align: left;
+  flex-grow: 1;
+}
+
+.leaderboard-details h2 {
+  margin: 0;
+}
+
+.leaderboard-details p {
+  margin: 5px 0;
+}
+
+/* Make the flag bigger and align to the right */
+.country-flag {
+  width: 60px; /* Increase the width of the flag */
+  height: auto;
+  margin-left: 15px;
+  align-self: center;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .leaderboard-header, .leaderboard-main {
     padding: 15px;
-    margin: 10px 0;
+    margin: 10px;
   }
-  
-  .leaderboard-rank {
+
+  .leaderboard-title {
     font-size: 1.5rem;
-    margin-right: 20px;
   }
-  
+
+  .leaderboard-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .leaderboard-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 20px;
+    margin-bottom: 10px;
   }
-  
-  .leaderboard-details {
-    text-align: left;
+}
+
+@media (max-width: 480px) {
+  .leaderboard-header, .leaderboard-main {
+    padding: 10px;
+    margin: 5px;
   }
-  
-  .leaderboard-details h2 {
-    margin: 0;
+
+  .leaderboard-title {
+    font-size: 1.2rem;
   }
-  
-  .leaderboard-details p {
-    margin: 5px 0;
+
+  .leaderboard-item {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  /* Media queries for responsiveness */
-  @media (max-width: 768px) {
-    .leaderboard-header, .leaderboard-main {
-      padding: 15px;
-      margin: 10px;
-    }
-  
-    .leaderboard-title {
-      font-size: 1.5rem;
-    }
-  
-    .leaderboard-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .leaderboard-picture {
-      margin-bottom: 10px;
-    }
+
+  .leaderboard-picture {
+    margin-bottom: 10px;
   }
-  
-  @media (max-width: 480px) {
-    .leaderboard-header, .leaderboard-main {
-      padding: 10px;
-      margin: 5px;
-    }
-  
-    .leaderboard-title {
-      font-size: 1.2rem;
-    }
-  
-    .leaderboard-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .leaderboard-picture {
-      margin-bottom: 10px;
-    }
-  }
-  
-  .back-button {
+}
+
+.back-button {
   background-color: #4CAF50;
-  color:#6A1B9A;  ;
+  color: #ffffff;
   padding: 10px 20px;
   margin-top: 10px;
   border: none;
@@ -141,4 +151,44 @@ body {
 
 .back-button:hover {
   background-color: #45a049;
+}
+
+.leaderboard-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.leaderboard-rank {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.leaderboard-picture {
+  width: 80px; /* Make the profile picture larger */
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.leaderboard-details {
+  flex-grow: 1;
+}
+
+/* Increase the size of the flag */
+.country-flag {
+  width: 60px; /* Make the flag larger */
+  height: auto;
+  margin-left: 15px;
+  align-self: center;
 }

@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
-import { createPost } from './graphql/mutations';
+import { createPost, createComment } from './graphql/mutations'; // Import createComment for auto comment
 import { uploadData } from 'aws-amplify/storage';
 import { fetchUserAttributes } from 'aws-amplify/auth';
+import { GoogleGenerativeAI } from '@google/generative-ai'; // Import Google Generative AI
 import './PostForm.css';
 
 const client = generateClient();
+const genAI = new GoogleGenerativeAI("AIzaSyAt68qPaTE-cVY0UcmbqhNhWPvIawAx8_Y");
 
-const predefinedTags = [
-  { value: 'medical', label: 'Medical' },
-  { value: 'news', label: 'News' },
-  { value: 'hobbies', label: 'Hobbies' },
-  { value: 'other', label: 'Other' },
-];
+const predefinedTags = ["Medical", "News", "Hobbies", "Other"];
 
 const PostForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [pictures, setPictures] = useState([]);
   const [tags, setTags] = useState([]);
-  const [selectedTag, setSelectedTag] = useState(null);
-  const [customTag, setCustomTag] = useState('');
+  const [tagInput, setTagInput] = useState('');
+  const [selectedPredefinedTag, setSelectedPredefinedTag] = useState('');
   const [currentUserId, setCurrentUserId] = useState(null);
   const [listening, setListening] = useState(false);
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetchUser();
@@ -91,31 +89,30 @@ const PostForm = () => {
     setPictures((prevPictures) => prevPictures.filter((_, i) => i !== index));
   };
 
-  const handleTagChange = (e) => {
-    const value = e.target.value;
-    if (value === 'other') {
-      setCustomTag('');
-      setSelectedTag(value);
-    } else {
-      setTags([...tags, value]);
-      setSelectedTag(null);
-    }
-  };
-
-  const handleCustomTagChange = (e) => {
-    setCustomTag(e.target.value);
-  };
-
-  const handleCustomTagAddition = () => {
-    if (customTag.trim() !== '') {
-      setTags([...tags, customTag.trim()]);
-      setCustomTag('');
-      setSelectedTag(null);
+  const handleTagAddition = () => {
+    if (selectedPredefinedTag && selectedPredefinedTag !== 'Other') {
+      setTags([...tags, selectedPredefinedTag]);
+      setSelectedPredefinedTag('');
+    } else if (tagInput.trim() !== '') {
+      setTags([...tags, tagInput.trim()]);
+      setTagInput('');
     }
   };
 
   const handleTagRemove = (index) => {
     setTags(tags.filter((_, i) => i !== index));
+  };
+
+  const createAutoComment = async (postDescription) => {
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+      const result = await model.generateContent([postDescription]);
+      return result.response.text();
+    } catch (error) {
+      console.error('Error generating comment:', error);
+      return null;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -155,10 +152,34 @@ const PostForm = () => {
     };
 
     try {
-      await client.graphql({ query: createPost, variables: { input } });
+      // Create the post
+      const postResult = await client.graphql({ query: createPost, variables: { input } });
+      const createdPost = postResult.data.createPost;
+
+      // Generate an auto-comment using the description of the post
+      const autoComment = await createAutoComment(content);
+      if (autoComment) {
+        const commentInput = {
+          postID: createdPost.id,
+          content: autoComment,
+          authorID: 'jrf07@mail.aub.edu', // Use a specific authorID for the bot-generated comment
+        };
+        await client.graphql({ query: createComment, variables: { input: commentInput } });
+      }
+
       navigate('/forum');
     } catch (error) {
       console.error('Error posting request:', error);
+      if (error.response && error.response.data && error.response.data.errors) {
+        // Handle GraphQL errors
+        setErrorMessage(error.response.data.errors[0].message);
+      } else if (error.message) {
+        // Handle other errors (e.g., network errors)
+        setErrorMessage(error.message);
+      } else {
+        // Generic fallback error message
+        setErrorMessage('An unexpected error occurred. Please try again.');
+      }
     }
   };
 
@@ -230,33 +251,34 @@ const PostForm = () => {
 
         <div className="pr-tag-input">
           <select
-            value={selectedTag || 'default'}
-            onChange={handleTagChange}
+            value={selectedPredefinedTag}
+            onChange={(e) => setSelectedPredefinedTag(e.target.value)}
             className="pr-input"
           >
-            <option value="default" disabled>Select a tag</option>
-            {predefinedTags.map(tag => (
-              <option key={tag.value} value={tag.value}>{tag.label}</option>
+            <option value="">Choose a tag</option>
+            {predefinedTags.map((tag, index) => (
+              <option key={index} value={tag}>
+                {tag}
+              </option>
             ))}
           </select>
-          {selectedTag === 'other' && (
-            <div className="custom-tag-input">
-              <input
-                type="text"
-                placeholder="Enter custom tag"
-                value={customTag}
-                onChange={handleCustomTagChange}
-                className="pr-input"
-              />
-              <button
-                type="button"
-                onClick={handleCustomTagAddition}
-                className="pr-add-button"
-              >
-                Add Custom Tag
-              </button>
-            </div>
+
+          {selectedPredefinedTag === 'Other' && (
+            <input
+              type="text"
+              placeholder="Enter your tag"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              className="pr-input"
+            />
           )}
+          <button
+            type="button"
+            onClick={handleTagAddition}
+            className="pr-add-button"
+          >
+            Add Tag
+          </button>
         </div>
 
         <div className="pr-tags-list">

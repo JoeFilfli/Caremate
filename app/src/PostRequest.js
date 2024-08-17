@@ -13,7 +13,7 @@ const client = generateClient();
 const PostRequest = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState(null); // Initialize as null
+  const [date, setDate] = useState(null);
   const [daysFromNow, setDaysFromNow] = useState('');
   const [urgent, setUrgent] = useState(false);
   const [tags, setTags] = useState([]);
@@ -38,7 +38,7 @@ const PostRequest = () => {
     if (days) {
       const newDate = new Date();
       newDate.setDate(newDate.getDate() + parseInt(days, 10));
-      setDate(newDate); // Set the date directly
+      setDate(newDate);
     } else {
       setDate(null);
     }
@@ -115,6 +115,11 @@ const PostRequest = () => {
     });
   };
 
+  const handleRemovePicture = (index) => {
+    setPictures(pictures.filter((_, i) => i !== index));
+    setPicturePreviews(picturePreviews.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -158,7 +163,7 @@ const PostRequest = () => {
         name,
         title,
         description,
-        date: date ? new Date(date).toISOString() : null, // Check if date is not null
+        date: date ? new Date(date).toISOString() : null,
         location,
         seniorID,
         country,
@@ -300,7 +305,12 @@ const PostRequest = () => {
         </button>
         <div className="pr-picture-previews">
           {picturePreviews.map((preview, index) => (
-            <img key={index} src={preview} alt={`Preview ${index}`} className="pr-picture-preview" />
+            <div key={index} className="pr-picture-preview-container">
+              <img src={preview} alt={`Preview ${index}`} className="pr-picture-preview" />
+              <button type="button" onClick={() => handleRemovePicture(index)} className="pr-remove-picture-button">
+                &times;
+              </button>
+            </div>
           ))}
         </div>
         <button className="pr-button" type="submit">Post Request</button>

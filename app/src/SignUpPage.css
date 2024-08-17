@@ -128,22 +128,27 @@
       font-size: 0.9rem;
     }
   }
-
-  .link_to_signin {
-    margin-top: 20px;
-    display: inline-block;
-    color: 388E3C;
+  .link-button {
+    background: none;
+    color: blue;
     border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
+    padding: 0;
+    font: inherit;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
+    text-decoration: underline;
     display: inline-block;
+    margin: 0 auto;
     text-align: center;
-    font-size: 16px;
   }
-
-  .sign-in-link:hover {
-    background-color: #388E3C;
+  
+  .link-button:hover {
+    color: darkblue;
   }
+  
+  .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+  

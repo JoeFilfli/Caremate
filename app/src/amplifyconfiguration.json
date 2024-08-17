@@ -33,6 +33,18 @@
   "aws_appsync_region": "us-east-1",
   "aws_appsync_authenticationType": "API_KEY",
   "aws_appsync_apiKey": "da2-oh3hnnmt6nerdfrpxz63mhwtim",
+  "aws_cloud_logic_custom": [
+    {
+      "name": "apid62059ee",
+      "endpoint": "https://sd8760dnyg.execute-api.us-east-1.amazonaws.com/dev",
+      "region": "us-east-1"
+    },
+    {
+      "name": "api3de40014",
+      "endpoint": "https://9ly6m28cxf.execute-api.us-east-1.amazonaws.com/dev",
+      "region": "us-east-1"
+    }
+  ],
   "aws_mobile_analytics_app_id": "c3d4e5f2157e4030938c75217b232852",
   "aws_mobile_analytics_app_region": "us-east-1",
   "Analytics": {

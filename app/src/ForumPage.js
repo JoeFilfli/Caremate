@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
 import { listPosts, getUser, commentsByPostIDAndId, repliesByCommentIDAndId } from './graphql/queries';
-import { createComment, createReply } from './graphql/mutations';
+import { createComment, createReply, createPost } from './graphql/mutations';
 import LikeButton from './LikeButton';
 import './ForumPage.css';
 import Modal from 'react-modal';
@@ -24,10 +24,10 @@ const ForumPage = () => {
   const [commentsModalIsOpen, setCommentsModalIsOpen] = useState(false);
   const [repliesModalIsOpen, setRepliesModalIsOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState('');
-  const [selectedTag, setSelectedTag] = useState(null); // Updated to handle Select component value
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [showMyPostsOnly, setShowMyPostsOnly] = useState(false);
   const navigate = useNavigate();
 
-  // Dropdown options
   const tagOptions = [
     { value: 'All', label: 'All' },
     { value: 'medical', label: 'Medical' },
@@ -58,6 +58,7 @@ const ForumPage = () => {
       console.log('Error signing out:', error);
     }
   };
+
 
   const fetchPosts = async () => {
     try {
@@ -218,20 +219,22 @@ const ForumPage = () => {
     }
   };
 
-  // Categorize tags as "Other" if not in predefined options
   const categorizeTag = (tags) => {
     return tags.includes('medical') || tags.includes('news') || tags.includes('hobbies')
       ? tags
       : [...tags, 'other'];
   };
 
-  // Filter posts based on selected tag
   const filteredPosts = selectedTag && selectedTag.value !== 'All'
     ? posts.filter(post => {
         const categorizedTags = categorizeTag(post.tags || []);
         return categorizedTags.includes(selectedTag.value);
       })
     : posts;
+
+  const myPosts = showMyPostsOnly
+    ? filteredPosts.filter(post => post.authorID === currentUserId)
+    : filteredPosts;
 
   return (
     <div className="forum-page">
@@ -253,10 +256,18 @@ const ForumPage = () => {
           className="tag-select"
         />
         <Link to="/post-form" className="forum-button">Post To Forum</Link>
+        <label>
+          <input
+            type="checkbox"
+            checked={showMyPostsOnly}
+            onChange={(e) => setShowMyPostsOnly(e.target.checked)}
+          />
+          Show My Posts Only
+        </label>
       </div>
 
       <section className="forum-posts">
-        {filteredPosts.map(post => (
+        {myPosts.map(post => (
           <div key={post.id} className="forum-post">
             <div className="author-info">
               {post.author && (
@@ -279,7 +290,7 @@ const ForumPage = () => {
                 <span key={index} className="post-tag">{tag}</span>
               ))}
             </div>
-            <LikeButton postId={post.id} likes={post.likes} likedBy={post.likedBy} />
+            <LikeButton postId={post.id} likes={post.likes} likedBy={post.likedBy || []} />
             <button type="button" onClick={() => openCommentModal(post)}>Comment</button>
             <button type="button" onClick={() => openCommentsModal(post)}>View Comments</button>
           </div>

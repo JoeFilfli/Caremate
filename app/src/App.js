@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage';
 import SignUpPage from './SignUpPage';
 import SignInPage from './SignInPage';
@@ -9,7 +9,7 @@ import ConfirmSignUpPage from './ConfirmSignUpPage';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import AboutPage from './AboutPage';
-import EmergencyPage from './EmergencyPage'; // Import EmergencyPage
+import EmergencyPage from './EmergencyPage';
 import ProfilePage from './ProfilePage';
 import PostRequest from './PostRequest';
 import PrivacyPolicy from './PrivacyPolicy';
@@ -19,8 +19,20 @@ import Leaderboard from './Leaderboard';
 import PostForm from './PostForm';
 import './App.css';
 
-
 function App() {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.chatbase.co/embed.min.js';
+    script.setAttribute('chatbotId', 'VNdweRJKugZVtfygwxOJz');
+    script.setAttribute('domain', 'www.chatbase.co');
+    script.defer = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -42,9 +54,8 @@ function App() {
         <Route path="/volunteer-responses" element={<VolunteerResponses/>} />
         <Route path="/leaderboard" element={<Leaderboard/>} />
         <Route path="/post-form" element={<PostForm/>} />
-
-
       </Routes>
+      
     </div>
   );
 }

@@ -1,44 +1,53 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import { getCurrentUser} from 'aws-amplify/auth';
+
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const handleSignInClick = async () => {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        navigate('/forum');
+      } else {
+        navigate('/signin');
+      }
+    } catch (error) {
+      // Handle the error appropriately
+      console.error('Error checking current user:', error);
+      navigate('/signin');
+    }
+  };
+
   return (
     <div className="home-page">
       <header className="header">
         <div className="logo-container">
-          <img src="/images/logo.png" alt="Vivia Logo" className="logo" />
-          <h1>Vivia</h1>
+          <img src="/images/logo.png" alt="CareMate Logo" className="logo" />
+          <h1>CareMate</h1>
         </div>
-        <h2 style={{ fontSize: '2rem' }}>Empowering Connections, Enhancing Care.</h2>
+        <h2>Your trusted companion for elderly care.</h2>
         <nav className="nav-links">
-		  <Link to="/about">About Us</Link>
-		</nav>
+          <Link to="/about">About Us</Link>
+        </nav>
       </header>
-      <div className="emergency-button-container">
-        <Link to="/emergency" className="emergency-button">Emergency</Link>
-      </div>
       <section className="intro-section">
         <video className="intro-video" autoPlay loop muted>
           <source src="/videos/intro-video.mp4" type="video/mp4" />
         </video>
         <div className="intro-text">
-          <h2>Welcome to Vivia</h2>
-          <h2 className="subtitle">Connecting seniors with community volunteers for daily assistance and social engagement.</h2>
+          <h2>Welcome to CareMate</h2>
+          <p>Connecting seniors with community volunteers for daily assistance and social engagement.</p>
           <Link to="/signup" className="cta-button">Get Started</Link>
         </div>
       </section>
-
-      {/* Moved the buttons section here */}
-      <div className="buttons">
-        <Link to="/signup" className="button">Sign Up</Link>
-        <Link to="/signin" className="button">Sign In</Link>
-      </div>
-
       <section className="description">
-        <h2>About Vivia</h2>
+        <h2>About CareMate</h2>
         <p className="large-text">
-          Vivia is a digital platform dedicated to enhancing the lives of seniors by connecting them with community volunteers. Our mission is to reduce isolation and increase accessibility to essential services like home repairs, gardening, companionship, and more. Join us in making a positive impact in the lives of the elderly.
+          CareMate is a digital platform dedicated to enhancing the lives of seniors by connecting them with community volunteers. Our mission is to reduce isolation and increase accessibility to essential services like home repairs, gardening, companionship, and more. Join us in making a positive impact in the lives of the elderly.
         </p>
         <h2>Our Services</h2>
         <ul className="offer-list">
@@ -51,7 +60,7 @@ function HomePage() {
             <p>Request help for various tasks such as grocery shopping, transportation, and home maintenance. Our dedicated volunteers are here to assist you with your daily needs.</p>
           </li>
           <li>
-            <h3>Instant Notifications</h3>
+            <h3>Instant Replies</h3>
             <p>Receive real-time alerts for any responses to your posts or assistance requests. Stay informed and connected with timely updates.</p>
           </li>
           <li>
@@ -64,13 +73,12 @@ function HomePage() {
           </li>
         </ul>
       </section>
-
       <section className="testimonials">
         <h2>What Our Users Say</h2>
         <div className="testimonial-list">
           <div className="testimonial-item">
             <img src="/images/user1.jpg" alt="User 1" className="testimonial-image" />
-            <p>"Vivia has been a lifesaver for me. The volunteers are so kind and helpful!"</p>
+            <p>"CareMate has been a lifesaver for me. The volunteers are so kind and helpful!"</p>
             <span>- Jane Doe</span>
           </div>
           <div className="testimonial-item">
@@ -80,7 +88,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
       <section className="how-it-works">
         <h2>How It Works</h2>
         <div className="steps">
@@ -101,9 +108,12 @@ function HomePage() {
           </div>
         </div>
       </section>
-
+      <div className="buttons">
+        <Link to="/signup" className="button">Sign Up</Link>
+        <button onClick={handleSignInClick} className="button">Sign In</button>
+      </div>
       <footer className="footer">
-        <p>&copy; 2024 Vivia. All rights reserved.</p>
+        <p>&copy; 2024 CareMate. All rights reserved.</p>
         <nav>
           <Link to="/about">About Us</Link>
           <Link to="/privacy">Privacy Policy</Link>

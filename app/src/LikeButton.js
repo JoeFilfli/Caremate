@@ -24,29 +24,29 @@ const LikeButton = ({ postId, likes, likedBy = [] }) => {
     fetchUser();
   }, [likedBy]);
 
-  const handleLike = async () => {
-    if (isLiked) return;
-
-    const updatedLikedBy = Array.isArray(likedBy) ? [...likedBy, userId] : [userId];
+  const handleLikeToggle = async () => {
+    const updatedLikedBy = isLiked
+      ? likedBy.filter(id => id !== userId)
+      : [...likedBy, userId];
 
     const input = {
       id: postId,
-      likes: currentLikes + 1,
+      likes: isLiked ? currentLikes - 1 : currentLikes + 1,
       likedBy: updatedLikedBy,
     };
 
     try {
       await client.graphql({ query: updatePost, variables: { input } });
-      setCurrentLikes(currentLikes + 1);
-      setIsLiked(true);
+      setCurrentLikes(isLiked ? currentLikes - 1 : currentLikes + 1);
+      setIsLiked(!isLiked);
     } catch (error) {
-      console.error('Error liking post:', error);
+      console.error('Error toggling like:', error);
     }
   };
 
   return (
-    <button onClick={handleLike} disabled={isLiked}>
-      {isLiked ? 'Liked' : 'Like'} ({currentLikes})
+    <button onClick={handleLikeToggle}>
+      {isLiked ? 'Unlike' : 'Like'} ({currentLikes})
     </button>
   );
 };

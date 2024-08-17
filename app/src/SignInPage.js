@@ -8,23 +8,6 @@ function SignInPage() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkCurrentUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user) {
-          // Redirect to the forum or any other page if the user is already signed in
-          navigate('/forum');
-        }
-      } catch (error) {
-        //continue
-      }
-    };
-
-    checkCurrentUser();
-  }, [navigate]);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
