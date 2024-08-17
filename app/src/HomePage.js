@@ -55,11 +55,14 @@ function HomePage() {
           <img src="/images/logo.png" alt="Vivia Logo" className="logo" />
           <h1>Vivia</h1>
         </div>
-        <h2 style={{ fontSize: '2rem' }}>Empowering Connections, Enhancing Care.</h2>
+        <h2 style={{ fontSize: '1.8rem' }}>Empowering Connections, Enhancing Care.</h2>
         <nav className="nav-links">
           <Link to="/about">About Us</Link>
         </nav>
       </header>
+      <div className="emergency-button-container">
+        <Link to="/emergency" className="emergency-button">Emergency</Link>
+      </div>
       <section className="intro-section">
         <video className="intro-video" autoPlay loop muted>
           <source src="/videos/intro-video.mp4" type="video/mp4" />
@@ -70,10 +73,7 @@ function HomePage() {
           <button onClick={handleGetStartedClick} className="cta-button">Get Started</button>
         </div>
       </section>
-      <div className="buttons">
-        <button onClick={handleSignUpClick} className="button">Sign Up</button>
-        <button onClick={handleSignInClick} className="button">Sign In</button>
-      </div>
+      
       <section className="description">
         <h2>About Vivia</h2>
         <p className="large-text">
@@ -138,6 +138,10 @@ function HomePage() {
           </div>
         </div>
       </section>
+      <div className="buttons">
+        <button onClick={handleSignUpClick} className="button">Sign Up</button>
+        <button onClick={handleSignInClick} className="button">Sign In</button>
+      </div>
      
       <footer className="footer">
         <p>&copy; 2024 Vivia. All rights reserved.</p>
