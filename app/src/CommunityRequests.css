@@ -23,7 +23,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  font-size: 1.2rem; /* Increase base font size */
+  font-size: 1.2rem; /* Base font size for better readability */
 }
 
 /* Community requests page container */
@@ -54,13 +54,15 @@ html, body {
 
 .community-title {
   margin: 10px;
-  font-size: 2.2rem; /* Increase font size */
+  font-size: 2.2rem; /* Increased font size */
   color: white;
 }
 
 .community-nav {
   display: flex;
   align-items: center;
+  justify-content: flex-end; /* Align buttons to the right */
+  flex-wrap: wrap; /* Allow wrapping to prevent overflow */
 }
 
 .community-nav-button {
@@ -71,22 +73,12 @@ html, body {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
-  font-size: 1.2rem; /* Increase font size */
+  margin-right: 10px; /* Adjusted margin to prevent overflow */
+  font-size: 1.2rem; /* Increased font size */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
-.community-signout-button {
-  background-color: var(--nav-button-bg-color);
-  color: white;
-  padding: 9px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
-  margin-right: 50px;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-nav-button:hover, .community-signout-button:hover {
+.community-nav-button:hover {
   background-color: var(--nav-button-hover-bg-color);
 }
 
@@ -98,7 +90,7 @@ html, body {
   box-shadow: var(--main-box-shadow);
   padding: 20px;
   text-align: left;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem; /* Increased font size */
 }
 
 .community-request-list {
@@ -111,9 +103,9 @@ html, body {
   background-color: var(--main-bg-color);
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 20px; /* Increase padding */
+  padding: 20px;
   margin: 10px 0;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem; /* Increased font size */
 }
 
 .urgent-request {
@@ -122,12 +114,12 @@ html, body {
 
 .community-request-item h3 {
   margin: 0 0 10px 0;
-  font-size: 1.5rem; /* Increase font size */
+  font-size: 1.5rem; /* Increased font size */
 }
 
 .community-request-item p {
   margin: 5px 0;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem; /* Increased font size */
 }
 
 .community-tags {
@@ -148,82 +140,186 @@ html, body {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 3px;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem; /* Increased font size */
 }
 
 .urgent-text {
   color: var(--urgent-text-color); /* Red text for urgent message */
   font-weight: bold;
   margin-top: 10px;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem; /* Increased font size */
 }
 
-.community-respond-button {
-  background-color: var(--respond-button-bg-color);
+/* Updated button styling for consistency and hover effects */
+.submit-button, .close-button {
+  background-color: var(--respond-button-bg-color); /* Green background */
   color: white;
-  padding: 10px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1.2rem;
   margin-top: 10px;
-  font-size: 1.2rem; /* Increase font size */
+  margin-right: 10px;
+  box-shadow: var(--main-box-shadow);
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
 }
 
-.community-respond-button:hover {
-  background-color: var(--respond-button-hover-bg-color);
+.submit-button:hover, .close-button:hover {
+  background-color: var(--respond-button-hover-bg-color); /* Darker green on hover */
 }
 
 /* Response form styling */
 .community-response-form {
-  background-color: var(--main-bg-color);
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px;
+  background-color: #f3e5f5; /* Light purple background */
+  border: 1px solid #d1c4e9; /* Slightly darker border */
+  border-radius: 10px;
+  padding: 30px;
   margin-top: 20px;
-  font-size: 1.2rem; /* Increase font size */
+  font-size: 1.2rem;
+  box-shadow: var(--main-box-shadow);
 }
 
 .community-response-form h3 {
   margin-top: 0;
-  font-size: 1.5rem; /* Increase font size */
+  font-size: 1.7rem; /* Increased font size */
+  color: #4A148C; /* Deep purple for the header */
 }
 
 .community-textarea {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 1.2rem; /* Increase font size */
+  height: 200px; /* Increased height */
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #d1c4e9; /* Soft purple border */
+  background-color: #ffffff; /* White background */
+  font-size: 1.2rem;
+  resize: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus */
 }
 
-.community-send-button {
+.community-textarea:focus {
+  border-color: #7e57c2; /* Darker purple on focus */
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced inner shadow on focus */
+}
+
+/* Respond button styling */
+.big-green-button {
   background-color: var(--respond-button-bg-color);
   color: white;
-  padding: 10px;
+  padding: 15px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1.2rem; /* Increase font size */
+  margin-top: 10px;
+  font-size: 1.5rem;
 }
 
-.community-send-button:hover {
+.big-green-button:hover {
   background-color: var(--respond-button-hover-bg-color);
 }
 
-.community-cancel-button {
-  background-color: var(--cancel-button-bg-color); /* Tomato color */
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.2rem; /* Increase font size */
-  margin-left: 10px;
+/* Modal styling */
+.response-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f3e5f5; /* Light purple background */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for a more modern look */
+  width: 70%; /* Adjusted width for better spacing */
+  z-index: 1000;
+  font-size: 1.2rem;
 }
 
-.community-cancel-button:hover {
-  background-color: var(--cancel-button-hover-bg-color); /* Orange Red color */
+.community-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+/* Profile picture and request pictures */
+.community-request-picture {
+  width: 100px; /* Adjusted width */
+  height: 100px; /* Maintain aspect ratio */
+  border-radius: 50%; /* Circular shape */
+  margin-top: 10px;
+}
+
+.community-request-pictures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Filter styles */
+.community-filters-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 25%; /* Slightly increased width for better visibility */
+  margin-right: 30px; /* Adjusted margin for better spacing */
+  font-size: 1.2rem;
+  padding: 15px; /* Added padding for more spacing within the sidebar */
+  background-color: #f3e5f5; /* Light purple background to match the response form */
+  border-radius: 10px; /* Rounded corners for a modern look */
+  box-shadow: var(--main-box-shadow); /* Consistent box shadow */
+}
+
+.community-filters-sidebar label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; /* Slightly reduced margin to tighten up spacing */
+  font-weight: bold; /* Make labels bold for better readability */
+  color: #4A148C; /* Deep purple text to match the theme */
+}
+
+/* Updated Urgent Checkbox Styling */
+.community-filters-sidebar label input[type="checkbox"] {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  cursor: pointer;
+  accent-color: #6A1B9A; /* Purple color for the checkbox */
+  transform: scale(1.5); /* Make the checkbox bigger */
+}
+
+.community-tag-select {
+  width: 100%;
+}
+
+/* Actions button styles */
+.community-actions {
+  display: flex;
+  justify-content: right;
+  margin-bottom: 20px;
+}
+
+.community-action-button {
+  background-color: #6A1B9A;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.community-action-button:hover {
+  background-color: #4A148C;
 }
 
 /* Media queries for responsiveness */
@@ -237,7 +333,7 @@ html, body {
     font-size: 1.5rem; /* Increase font size */
   }
 
-  .community-nav-button, .community-signout-button {
+  .community-nav-button {
     font-size: 1.2rem; /* Increase font size */
     padding: 8px;
   }
@@ -246,7 +342,7 @@ html, body {
     font-size: 1.3rem; /* Increase font size */
   }
 
-  .community-respond-button, .community-send-button, .community-cancel-button {
+  .big-green-button, .submit-button, .close-button {
     font-size: 1.2rem; /* Increase font size */
     padding: 8px;
   }
@@ -262,7 +358,7 @@ html, body {
     font-size: 1.2rem; /* Increase font size */
   }
 
-  .community-nav-button, .community-signout-button {
+  .community-nav-button {
     font-size: 1.1rem; /* Increase font size */
     padding: 6px;
   }
@@ -271,113 +367,8 @@ html, body {
     font-size: 1.1rem; /* Increase font size */
   }
 
-  .community-respond-button, .community-send-button, .community-cancel-button {
+  .big-green-button, .submit-button, .close-button {
     font-size: 1.1rem; /* Increase font size */
     padding: 6px;
   }
 }
-
-.community-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 80%;
-  z-index: 1000;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-textarea {
-  width: 90%;
-  height: 100px;
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-request-picture {
-  width: 100px; /* Adjust the width as needed */
-  height: 100px; /* Maintain aspect ratio */
-  border-radius: 50%; /* Make it circular, remove if you want it square */
-  margin-top: 10px; /* Add some spacing */
-  font-size: 1.2rem; /* Increase font size */
-}
-
-
-.community-request-pictures {
-  display: flex;
-  flex-wrap: wrap; /* Allows images to wrap to the next line if necessary */
-  gap: 10px; /* Space between images */
-}
-/* Filter styles */
-.community-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-filters label {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-tag-input {
-  width: 200px;
-  font-size: 1.2rem; /* Increase font size */
-}
-
-.community-request-pictures {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-/* Add this to CommunityRequests.css */
-
-.community-actions {
-  display: flex;
-  justify-content: right;
-  margin-bottom: 20px;
-}
-
-.community-action-button {
-  background-color: #6A1B9A;
-  color: white;
-  padding: 10px 100px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  margin: 0 10px;
-  cursor: pointer;
-}
-
-.community-action-button:hover {
-  background-color: #4A148C;
-}
-

@@ -31,14 +31,13 @@ function CommunityRequests() {
 
   const tagOptions = [
     { value: 'All', label: 'All' },
-    { value: 'electrical', label: 'Electrical' },
-    { value: 'plumbing', label: 'Plumbing' },
-    { value: 'physical', label: 'Physical' },
-    { value: 'gardening', label: 'Gardening' },
-    { value: 'shopping', label: 'Shopping' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'community', label: 'Community' },
+    { value: 'repair', label: 'Repair' },
+    { value: 'assistance', label: 'Assistance' },
     { value: 'technology', label: 'Technology' },
-    { value: 'medical', label: 'Medical' },
-    { value: 'cooking', label: 'Cooking' },
+    { value: 'health', label: 'Health' },
+    { value: 'delivery', label: 'Delivery' },
     { value: 'other', label: 'Other' }
   ];
 
@@ -127,15 +126,6 @@ function CommunityRequests() {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.log('Error signing out:', error);
-    }
-  };
-
   const openModal = (request) => {
     setSelectedRequest(request);
     setModalIsOpen(true);
@@ -171,15 +161,9 @@ function CommunityRequests() {
           <Link to="/forum" className="community-nav-button">
             Go to Community Forum
           </Link>
-          <Link to="/leaderboard" className="community-nav-button">
-            Leaderboard
-          </Link>
           <Link to="/profile" className="community-nav-button">
             View Profile
           </Link>
-          <button onClick={handleSignOut} className="community-signout-button">
-            Sign Out
-          </button>
         </nav>
       </header>
 
@@ -204,7 +188,7 @@ function CommunityRequests() {
               )}
             </div>
           )}
-          <div className="community-filters">
+          <div className="community-filters-sidebar">
             <label>
               Urgent:
               <input
@@ -274,7 +258,7 @@ function CommunityRequests() {
                 {role === 'senior' ? null : (
                   <button 
                     onClick={() => openModal(request)} 
-                    className="community-request-button"
+                    className="community-request-button big-green-button"
                   >
                     Respond
                   </button>
@@ -303,8 +287,8 @@ function CommunityRequests() {
               required
             />
           </label>
-          <button type="submit">Submit Response</button>
-          <button type="button" onClick={closeModal}>Close</button>
+          <button type="submit" className="submit-button">Submit Response</button>
+          <button type="button" onClick={closeModal} className="close-button">Close</button>
         </form>
       </Modal>
     </div>
