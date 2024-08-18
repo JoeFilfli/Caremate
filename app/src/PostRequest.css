@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #f2f2f2;
+  background-color: #f3e5f5; /* Light purple background */
 }
 
 /* Post Request page container */
@@ -26,18 +26,28 @@ body {
 .pr-form h2 {
   margin-bottom: 20px;
   font-size: 2rem;
-  color: #333;
+  color: #4A148C; /* Deep purple for the header */
 }
 
+/* Input and textarea styling */
 .pr-input, .pr-textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* Slightly increased padding for better feel */
   margin: 10px 0;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #d1c4e9; /* Light purple border */
   font-size: 1rem;
+  background-color: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
+.pr-input:focus, .pr-textarea:focus {
+  border-color: #7e57c2; /* Darker purple on focus */
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced inner shadow on focus */
+}
+
+/* Checkbox styling */
 .pr-checkbox {
   margin: 10px 0;
   display: flex;
@@ -46,82 +56,41 @@ body {
 
 .pr-checkbox label {
   margin-right: 10px;
+  color: #4A148C; /* Deep purple for the label */
+  font-weight: bold;
 }
 
+/* Button styling */
+.pr-add-button, .pr-button {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 12px 20px; /* Slightly increased padding */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.pr-add-button:hover, .pr-button:hover {
+  background-color: #388E3C; /* Darker green on hover */
+}
+
+/* Tags styling */
 .pr-tag-input {
   display: flex;
   align-items: center;
   margin: 10px 0;
 }
 
-.pr-add-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-left: 10px;
-}
-
-.pr-add-button:hover {
-  background-color: #388E3C;
-}
-
-.pr-tags-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.pr-tag {
-  display: flex;
-  align-items: center;
-  background-color: #e0e0e0;
-  color: #333;
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 3px;
-  font-size: 0.9rem;
-}
-
-.pr-tag-delete-button {
-  background-color: #ff1744;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.pr-tag-delete-button:hover {
-  background-color: #d50000;
-}
-
-.pr-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 20px;
-}
-
-.pr-button:hover {
-  background-color: #388E3C;
-}
-/* Tags list container */
 .pr-tags-list {
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;
 }
 
-/* Individual tag styling */
 .pr-tag {
   display: flex;
   align-items: center;
@@ -150,26 +119,25 @@ body {
   padding: 0;
   font-size: 12px;
   line-height: 12px;
+  transition: background-color 0.3s ease;
 }
 
 .pr-tag-delete-button:hover {
   background-color: #d50000;
 }
 
-.pr-form {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Voice input button */
 .pr-voice-button {
   align-self: flex-end; /* Aligns the button to the right */
   margin-top: 10px;
 }
 
+/* Picture preview styling */
 .pr-picture-previews {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .pr-picture-preview-container {
@@ -183,6 +151,7 @@ body {
   object-fit: cover;
   border-radius: 5px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .pr-remove-picture-button {
@@ -200,4 +169,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+.pr-remove-picture-button:hover {
+  background-color: #b71c1c; /* Darker red on hover */
 }

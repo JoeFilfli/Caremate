@@ -25,8 +25,13 @@ const PostRequest = () => {
   const navigate = useNavigate();
 
   const predefinedTags = [
-    'electrical', 'plumbing', 'physical', 'gardening', 
-    'shopping', 'technology', 'medical', 'cooking', 'other'
+    { value: 'community', label: 'Community' },
+    { value: 'repair', label: 'Repair' },
+    { value: 'assistance', label: 'Assistance' },
+    { value: 'technology', label: 'Technology' },
+    { value: 'health', label: 'Health' },
+    { value: 'delivery', label: 'Delivery' },
+    { value: 'other', label: 'Other' }
   ];
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -256,8 +261,8 @@ const PostRequest = () => {
           >
             <option value="">Select a tag</option>
             {predefinedTags.map((tag, index) => (
-              <option key={index} value={tag}>
-                {tag}
+              <option key={index} value={tag.value}>
+                {tag.label}
               </option>
             ))}
           </select>

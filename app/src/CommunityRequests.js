@@ -31,7 +31,6 @@ function CommunityRequests() {
 
   const tagOptions = [
     { value: 'All', label: 'All' },
-    { value: 'urgent', label: 'Urgent' },
     { value: 'community', label: 'Community' },
     { value: 'repair', label: 'Repair' },
     { value: 'assistance', label: 'Assistance' },
