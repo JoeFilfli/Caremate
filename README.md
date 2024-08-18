@@ -1,6 +1,3 @@
-**Here's the entire text in a single file, formatted as a README.md:**
-
-```markdown
 # React App
 
 Welcome to your React application! This project is a [brief description of what your application does]. It is part of the Amazon Industry Program.
