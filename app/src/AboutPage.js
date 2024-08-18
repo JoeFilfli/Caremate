@@ -45,19 +45,29 @@ function AboutPage() {
         <h2>Meet Our Team</h2>
         <div className="team-members">
           <div className="team-member">
-            <img src="/images/team-member1.jpg" alt="Team Member 1" className="team-photo" />
-            <h3>John Doe</h3>
-            <p>Founder & CEO</p>
+            <img src="/images/hassan.jpg" alt="Hassan Khalil" className="team-photo" />
+            <h3>Hassan Khalil</h3>
+            <p>Lead Interface Developer</p>
           </div>
           <div className="team-member">
-            <img src="/images/team-member2.jpg" alt="Team Member 2" className="team-photo" />
-            <h3>Jane Smith</h3>
-            <p>Chief Operating Officer</p>
+            <img src="/images/joe.jpg" alt="Joe Filfli" className="team-photo" />
+            <h3>Joe Filfli</h3>
+            <p>Chief Technology Officer</p>
           </div>
           <div className="team-member">
-            <img src="/images/team-member3.jpg" alt="Team Member 3" className="team-photo" />
-            <h3>Michael Johnson</h3>
+            <img src="/images/elige.jpg" alt="Elige Abi Antoun" className="team-photo" />
+            <h3>Elige Abi Antoun</h3>
             <p>Head of Community Engagement</p>
+          </div>
+          <div className="team-member">
+            <img src="/images/eliya.jpg" alt="Eliya Badr" className="team-photo" />
+            <h3>Eliya Badr</h3>
+            <p>Technical Advisor</p>
+          </div>
+          <div className="team-member">
+            <img src="/images/clara.jpg" alt="Clara Maria Bellan" className="team-photo" />
+            <h3>Clara Maria Bellan</h3>
+            <p>Marketing Lead</p>
           </div>
         </div>
       </section>
