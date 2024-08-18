@@ -62,7 +62,7 @@ function AboutPage() {
           <div className="team-member">
             <img src="/images/eliya.jpg" alt="Eliya Badr" className="team-photo" />
             <h3>Eliya Badr</h3>
-            <p>Technical Advisor</p>
+            <p>Senior Systems Developer</p>
           </div>
           <div className="team-member">
             <img src="/images/clara.jpg" alt="Clara Maria Bellan" className="team-photo" />
