@@ -68,17 +68,21 @@ function HomePage() {
           <source src="/videos/intro-video.mp4" type="video/mp4" />
         </video>
         <div className="intro-text">
-        <h2>Welcome to Vivia</h2>
-        <h2 className="subtitle">Connecting seniors with community volunteers for daily assistance and social engagement.</h2>
+          <h2>Welcome to Vivia</h2>
+          <h2 className="subtitle">Connecting seniors with community volunteers for daily assistance and social engagement.</h2>
           <button onClick={handleGetStartedClick} className="cta-button">Get Started</button>
         </div>
       </section>
-      
+
       <section className="description">
         <h2>About Vivia</h2>
         <p className="large-text">
           Vivia is a digital platform dedicated to enhancing the lives of seniors by connecting them with community volunteers. Our mission is to reduce isolation and increase accessibility to essential services like home repairs, gardening, companionship, and more. Join us in making a positive impact in the lives of the elderly.
         </p>
+        <div className="buttons">
+          <button onClick={handleSignUpClick} className="button">Sign Up</button>
+          <button onClick={handleSignInClick} className="button">Sign In</button>
+        </div>
         <h2>Our Services</h2>
         <ul className="offer-list">
           <li>
@@ -103,21 +107,28 @@ function HomePage() {
           </li>
         </ul>
       </section>
+
       <section className="testimonials">
         <h2>What Our Users Say</h2>
         <div className="testimonial-list">
           <div className="testimonial-item">
-            <img src="/images/user1.jpg" alt="User 1" className="testimonial-image" />
-            <p>"Vivia has been a lifesaver for me. The volunteers are so kind and helpful!"</p>
-            <span>- Jane Doe</span>
+            <img src="/images/user1.jpg" alt="Chahid Hassoun" className="testimonial-image large-image" />
+            <p>"I’ve appreciated your service. As someone who’s not as mobile, finding help for everyday tasks has been a real challenge. Your website has been a lifesaver."</p>
+            <span>- Chahid Hassoun</span>
           </div>
           <div className="testimonial-item">
-            <img src="/images/user2.jpg" alt="User 2" className="testimonial-image" />
-            <p>"I love how easy it is to connect with others in my community."</p>
-            <span>- John Smith</span>
+            <img src="/images/user2.jpg" alt="Bassam Abi Antoun" className="testimonial-image large-image" />
+            <p>"Navigating the website has been straightforward, and I’ve felt very secure using it. It’s a relief to have a reliable way to get help. Thank you for making this possible."</p>
+            <span>- Bassam Abi Antoun</span>
+          </div>
+          <div className="testimonial-item">
+            <img src="/images/user3.jpg" alt="Samia Wehbe" className="testimonial-image large-image" />
+            <p>"The volunteers I’ve met have been wonderful, so kind and helpful. Their support has made a huge difference. It’s comforting to know that caring people are willing to lend a hand."</p>
+            <span>- Samia Wehbe</span>
           </div>
         </div>
       </section>
+
       <section className="how-it-works">
         <h2>How It Works</h2>
         <div className="steps">
@@ -138,11 +149,7 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <div className="buttons">
-        <button onClick={handleSignUpClick} className="button">Sign Up</button>
-        <button onClick={handleSignInClick} className="button">Sign In</button>
-      </div>
-     
+
       <footer className="footer">
         <p>&copy; 2024 Vivia. All rights reserved.</p>
         <nav>

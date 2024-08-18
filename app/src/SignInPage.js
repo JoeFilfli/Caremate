@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signIn, getCurrentUser} from 'aws-amplify/auth';
+import { signIn } from 'aws-amplify/auth';
 import './SignInPage.css';
 
 function SignInPage() {
@@ -25,28 +25,38 @@ function SignInPage() {
 
   return (
     <div className="signin-page">
-      <section className="signin-section">
-        <form onSubmit={handleSubmit}>
-          <label>Email: 
-            <input
-              type="email"
-              value={username}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </label><br />
-          <label>Password: 
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label><br />
-          <button type="submit">Sign In</button>
-        </form>
-        <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
-      </section>
+      <div className="signin-container">
+        <div className="signin-header">
+          <h2>Welcome Back</h2>
+          <p>Please sign in to continue</p>
+        </div>
+        <section className="signin-section">
+          <form onSubmit={handleSubmit} className="signin-form">
+            <label>Email: 
+              <input
+                type="email"
+                value={username}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                className="signin-input"
+              />
+            </label><br />
+            <label>Password: 
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+                className="signin-input"
+              />
+            </label><br />
+            <button type="submit" className="signin-button">Sign In</button>
+          </form>
+          <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
+        </section>
+      </div>
     </div>
   );
 }
