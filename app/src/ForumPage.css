@@ -1,19 +1,17 @@
-/* ForumPage.css */
-
 /* General styles */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #f2f2f2;
+  background-color: #f5e6f7; /* Light purple background */
 }
 
 /* Forum page container */
 .forum-page {
   width: 100%;
   margin: 0 auto;
-  padding: 0px;
+  padding: 0;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -58,9 +56,24 @@ body {
   background-color: #4A148C;
 }
 
+/* Filter container for Sort and Tag Select */
+.filter-container {
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+  gap: 10px;
+  margin: 20px;
+}
+
+.sort-select,
+.tag-select {
+  width: 150px; /* Smaller width for the selects */
+  font-size: 0.9rem;
+}
+
+/* Post area styling */
 .forum-posts {
-  padding: 20px;
-  width: 90%;
+  padding: 10px; /* Smaller padding */
+  width: 80%; /* Make the forum area smaller */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -69,11 +82,11 @@ body {
 
 .forum-post {
   background-color: #ffffff;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 15px; /* Smaller padding */
+  margin-bottom: 15px; /* Smaller margin */
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 95%;
+  width: 85%; /* Make the post box smaller */
 }
 
 .author-info {
@@ -83,10 +96,12 @@ body {
 }
 
 .author-picture {
-  width: 40px;
-  height: 40px;
+  width: 35px; /* Smaller author picture */
+  height: 35px;
   border-radius: 50%;
   margin-right: 10px;
+  background-color: #d3d3d3; /* Grey circle for missing profile photos */
+  object-fit: cover;
 }
 
 .author-name {
@@ -96,13 +111,13 @@ body {
 
 .forum-post h2 {
   margin: 10px 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem; /* Slightly smaller title */
   color: #333;
   text-align: left; /* Align title to the left */
 }
 
 .forum-post p {
-  margin: 10px 0;
+  margin: 8px 0; /* Smaller margin */
   color: #666;
   text-align: left; /* Align description to the left */
 }
@@ -114,7 +129,7 @@ body {
 }
 
 .post-picture {
-  width: calc(33.333% - 10px);
+  width: calc(25% - 10px); /* Smaller image size */
   margin: 5px;
   border-radius: 10px;
 }
@@ -125,27 +140,74 @@ body {
 
 .post-tag {
   display: inline-block;
-  background-color: #e0e0e0;
-  color: #333;
   padding: 5px 10px;
   margin: 5px;
   border-radius: 3px;
   font-size: 0.9rem;
+  color: white; /* Make tag text white for contrast */
 }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
+.post-tag:nth-child(1) {
+  background-color: #ff6f61; /* Red */
+}
+
+.post-tag:nth-child(2) {
+  background-color: #6B5B95; /* Purple */
+}
+
+.post-tag:nth-child(3) {
+  background-color: #88B04B; /* Green */
+}
+
+.post-tag:nth-child(4) {
+  background-color: #FFA07A; /* Light Coral */
+}
+
+.post-tag:nth-child(5) {
+  background-color: #F7CAC9; /* Pink */
+}
+
+/* Like, Comment, and View Comments buttons */
+.post-actions {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  align-items: center;
+}
+
+.like-button {
+  background: none;
   border: none;
-  border-radius: 5px;
+  color: #4CAF50;
   cursor: pointer;
-  font-size: 1rem;
-  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
 }
 
-button:hover {
-  background-color: #388E3C;
+.like-button .thumbs-up-icon {
+  margin-right: 5px;
+}
+
+.like-button .thumbs-up-icon.liked {
+  color: #388E3C; /* Darker green when liked */
+}
+
+.comment-button,
+.view-comments-button,
+.reply-button {
+  background: none;
+  border: none;
+  color: #6A1B9A;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.comment-button .fa-comment-dots,
+.view-comments-button .fa-eye, /* New icon for view comments */
+.reply-button .fa-comment-dots {
+  margin-right: 5px;
 }
 
 /* Modal styling */
@@ -178,6 +240,7 @@ button:hover {
   margin-right: 10px;
 }
 
+/* Comment and reply styling */
 .comment, .reply {
   margin: 10px 0;
   padding: 10px;
@@ -212,60 +275,54 @@ button:hover {
   font-weight: bold;
 }
 
-/* Tag filter styling */
-.tag-filter {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.tag-input {
-  width: 50%;
-  padding: 15px;
-  font-size: 1.2rem;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  outline: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tag-input:focus {
-  border-color: #4CAF50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Container for tag filter and post button */
-.tag-filter-and-post {
+.forum-post-button {
+  position: fixed;  /* Fixed position */
+  top: 400px;  /* Lowered from 20px to 60px */
+  left: 20px;  /* Keep it 20px from the left */
+  z-index: 1000;  /* Ensure it stays above other elements */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  margin: 20px auto;
-}
-
-.tag-input {
-  flex: 1;
-  padding: 10px;
-  font-size: 1.2rem;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  outline: none;
-  margin-right: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.forum-button {
+  justify-content: center;
   background-color: #6A1B9A;
   color: white;
-  padding: 10px 20px;
+  padding: 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
+  width: 60px;  /* Increased width */
+  height: 60px;  /* Increased height */
+  font-size: 2rem;
   text-decoration: none;
-  font-size: 1rem;
   cursor: pointer;
 }
 
-.forum-button:hover {
+.forum-post-button:hover {
   background-color: #4A148C;
+}
+
+.forum-post-button .plus-icon {
+  font-size: 2rem;
+}
+
+.forum-post-button .post-text {
+  display: none;
+  font-size: 1rem;
+  padding-left: 10px;
+}
+
+.forum-post-button:hover .post-text {
+  display: inline;
+  margin-left: 10px;
+}
+
+
+/* Adjustments to ensure the button is visible */
+body {
+  position: relative;
+  overflow-x: hidden;  /* Prevent horizontal scrolling */
+}
+
+.forum-page {
+  position: relative;
+  min-height: 100vh;  /* Ensure the page takes up full height */
+  padding-bottom: 100px;  /* Space at the bottom */
 }

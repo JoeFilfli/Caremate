@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
 import { listPosts, getUser, commentsByPostIDAndId, repliesByCommentIDAndId } from './graphql/queries';
-import { createComment, createReply, createPost } from './graphql/mutations';
-import LikeButton from './LikeButton';
+import { createComment, createReply } from './graphql/mutations';
 import './ForumPage.css';
 import Modal from 'react-modal';
 import { fetchUserAttributes } from 'aws-amplify/auth';
-import { signOut } from 'aws-amplify/auth';
 import Select from 'react-select';
+import { FaThumbsUp, FaCommentDots, FaEye, FaPlus } from 'react-icons/fa';
 
 const client = generateClient();
 
@@ -31,11 +30,13 @@ const ForumPage = () => {
 
   const tagOptions = [
     { value: 'All', label: 'All' },
-    { value: 'medical', label: 'Medical' },
     { value: 'news', label: 'News' },
-    { value: 'hobbies', label: 'Hobbies' },
+    { value: 'medical', label: 'Medical' },
+    { value: 'support', label: 'Support' },
+    { value: 'community', label: 'Community' },
     { value: 'other', label: 'Other' }
   ];
+
   const sortOptions = [
     { value: 'newest', label: 'Newest' },
     { value: 'oldest', label: 'Oldest' },
@@ -56,39 +57,39 @@ const ForumPage = () => {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.log('Error signing out:', error);
-    }
-  };
-
-
   const fetchPosts = async () => {
     try {
       const result = await client.graphql({ 
         query: listPosts
       });
       let posts = result.data.listPosts.items;
-      
+  
+      const postsWithAuthors = await Promise.all(
+        posts.map(async (post) => {
+          try {
+            const userResult = await client.graphql({ query: getUser, variables: { id: post.authorID } });
+            post.author = userResult.data.getUser;
+          } catch (error) {
+            console.error('Error fetching user:', error);
+          }
+          return post;
+        })
+      );
+  
       // Sort posts based on the selected sort option
       if (sortOption === 'oldest') {
-        posts = posts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        postsWithAuthors.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       } else if (sortOption === 'newest') {
-        posts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if (sortOption === 'popular') {
-        posts = posts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        postsWithAuthors.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      } else if ( sortOption === 'popular') {
+        postsWithAuthors.sort((a, b) => (b.likes || 0) - (a.likes || 0));
       }
   
-      setPosts(posts);
+      setPosts(postsWithAuthors);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
   };
-  
-
 
   const fetchCommentsByPost = async (postID) => {
     try {
@@ -139,6 +140,27 @@ const ForumPage = () => {
       console.error('Error fetching replies:', error);
       return [];
     }
+  };
+
+  const toggleLike = (postId) => {
+    const postIndex = posts.findIndex(post => post.id === postId);
+    if (postIndex === -1) return;
+
+    const updatedPosts = [...posts];
+    const post = updatedPosts[postIndex];
+
+    if (post.likedBy && post.likedBy.includes(currentUserId)) {
+      post.likes--;
+      post.likedBy = post.likedBy.filter(id => id !== currentUserId);
+    } else {
+      post.likes++;
+      if (!post.likedBy) {
+        post.likedBy = [];
+      }
+      post.likedBy.push(currentUserId);
+    }
+
+    setPosts(updatedPosts);
   };
 
   const openCommentModal = (post) => {
@@ -249,11 +271,17 @@ const ForumPage = () => {
         <div className="header-buttons">
           <Link to="/requests" className="community-nav-button">Go to Community Requests</Link>
           <Link to="/profile" className="community-nav-button">View Profile</Link>
-          <button onClick={handleSignOut} className="community-signout-button">Sign Out</button>
         </div>
       </header>
 
-      <div className="tag-filter">
+      <div className="filter-container">
+        <Select
+          value={sortOptions.find(option => option.value === sortOption)}
+          onChange={(option) => setSortOption(option.value)}
+          options={sortOptions}
+          placeholder="Sort by"
+          className="sort-select"
+        />
         <Select
           value={selectedTag}
           onChange={setSelectedTag}
@@ -261,16 +289,6 @@ const ForumPage = () => {
           placeholder="Select a tag"
           className="tag-select"
         />
-         <Select
-          value={sortOptions.find(option => option.value === sortOption)}
-          onChange={(option) => setSortOption(option.value)}
-          options={sortOptions}
-          placeholder="Sort by"
-          className="sort-select"
-        />
-        <Link to="/post-form" className="forum-button">Post To Forum</Link>
-        <Link to="/view-my-posts" className="forum-button">View My Posts</Link>
-
       </div>
 
       <section className="forum-posts">
@@ -297,9 +315,18 @@ const ForumPage = () => {
                 <span key={index} className="post-tag">{tag}</span>
               ))}
             </div>
-            <LikeButton postId={post.id} likes={post.likes} likedBy={post.likedBy || []} />
-            <button type="button" onClick={() => openCommentModal(post)}>Comment</button>
-            <button type="button" onClick={() => openCommentsModal(post)}>View Comments</button>
+            <div className="post-actions">
+              <button className="like-button" onClick={() => toggleLike(post.id)}>
+                <FaThumbsUp className={`thumbs-up-icon ${(post.likedBy && post.likedBy.includes(currentUserId)) ? 'liked' : ''}`} />
+                <span className="like-count">{post.likes}</span>
+              </button>
+              <button type="button" onClick={() => openCommentModal(post)} className="comment-button">
+                <FaCommentDots />
+              </button>
+              <button type="button" onClick={() => openCommentsModal(post)} className="view-comments-button">
+                <FaEye /> {/* Icon for view comments */}
+              </button>
+            </div>
           </div>
         ))}
       </section>
@@ -353,7 +380,9 @@ const ForumPage = () => {
                 ))}
               </ul>
             </div>
-            <button type="button" onClick={() => openReplyModal(comment)}>Reply</button>
+            <button type="button" onClick={() => openReplyModal(comment)} className="reply-button">
+              <FaCommentDots />
+            </button>
           </div>
         ))}
       </Modal>
@@ -390,6 +419,12 @@ const ForumPage = () => {
         ))}
         <button type="button" onClick={closeRepliesModal}>Close</button>
       </Modal>
+
+      {/* Post Button */}
+      <Link to="/post-form" className="forum-post-button">
+        <FaPlus className="plus-icon" />
+        <span className="post-text">Post</span>
+      </Link>
     </div>
   );
 };
