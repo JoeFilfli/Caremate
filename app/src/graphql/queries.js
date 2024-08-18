@@ -29,6 +29,7 @@ export const getRequest = /* GraphQL */ `
       volunteerName
       urgent
       tags
+      compensations
       __typename
     }
   }
@@ -62,6 +63,7 @@ export const listRequests = /* GraphQL */ `
         volunteerName
         urgent
         tags
+        compensations
         __typename
       }
       nextToken
@@ -406,6 +408,7 @@ export const requestsBySeniorIDAndId = /* GraphQL */ `
         volunteerName
         urgent
         tags
+        compensations
         __typename
       }
       nextToken
@@ -452,6 +455,7 @@ export const requestsByVolunteerIDAndId = /* GraphQL */ `
         volunteerName
         urgent
         tags
+        compensations
         __typename
       }
       nextToken

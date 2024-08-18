@@ -32,6 +32,7 @@ export const createRequest = /* GraphQL */ `
       volunteerName
       urgent
       tags
+      compensations
       __typename
     }
   }
@@ -67,6 +68,7 @@ export const updateRequest = /* GraphQL */ `
       volunteerName
       urgent
       tags
+      compensations
       __typename
     }
   }
@@ -102,6 +104,7 @@ export const deleteRequest = /* GraphQL */ `
       volunteerName
       urgent
       tags
+      compensations
       __typename
     }
   }

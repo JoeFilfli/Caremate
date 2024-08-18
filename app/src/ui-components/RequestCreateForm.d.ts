@@ -42,6 +42,7 @@ export declare type RequestCreateFormInputValues = {
     volunteerName?: string;
     urgent?: boolean;
     tags?: string[];
+    compensations?: number;
 };
 export declare type RequestCreateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -64,6 +65,7 @@ export declare type RequestCreateFormValidationValues = {
     volunteerName?: ValidationFunction<string>;
     urgent?: ValidationFunction<boolean>;
     tags?: ValidationFunction<string>;
+    compensations?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RequestCreateFormOverridesProps = {
@@ -88,6 +90,7 @@ export declare type RequestCreateFormOverridesProps = {
     volunteerName?: PrimitiveOverrideProps<TextFieldProps>;
     urgent?: PrimitiveOverrideProps<SwitchFieldProps>;
     tags?: PrimitiveOverrideProps<TextFieldProps>;
+    compensations?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type RequestCreateFormProps = React.PropsWithChildren<{
     overrides?: RequestCreateFormOverridesProps | undefined | null;

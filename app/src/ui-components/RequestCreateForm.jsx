@@ -210,6 +210,7 @@ export default function RequestCreateForm(props) {
     volunteerName: "",
     urgent: false,
     tags: [],
+    compensations: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [title, setTitle] = React.useState(initialValues.title);
@@ -241,6 +242,9 @@ export default function RequestCreateForm(props) {
   );
   const [urgent, setUrgent] = React.useState(initialValues.urgent);
   const [tags, setTags] = React.useState(initialValues.tags);
+  const [compensations, setCompensations] = React.useState(
+    initialValues.compensations
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
@@ -265,6 +269,7 @@ export default function RequestCreateForm(props) {
     setUrgent(initialValues.urgent);
     setTags(initialValues.tags);
     setCurrentTagsValue("");
+    setCompensations(initialValues.compensations);
     setErrors({});
   };
   const [currentPicturesValue, setCurrentPicturesValue] = React.useState("");
@@ -292,6 +297,7 @@ export default function RequestCreateForm(props) {
     volunteerName: [],
     urgent: [],
     tags: [],
+    compensations: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -356,6 +362,7 @@ export default function RequestCreateForm(props) {
           volunteerName,
           urgent,
           tags,
+          compensations,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -438,6 +445,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -481,6 +489,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -524,6 +533,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -569,6 +579,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.date ?? value;
@@ -612,6 +623,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.location ?? value;
@@ -655,6 +667,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.seniorID ?? value;
@@ -698,6 +711,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.volunteerID ?? value;
@@ -741,6 +755,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -784,6 +799,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.country ?? value;
@@ -827,6 +843,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.locale ?? value;
@@ -870,6 +887,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.seniorFeedback ?? value;
@@ -913,6 +931,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.volunteerFeedback ?? value;
@@ -960,6 +979,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.createdAt ?? value;
@@ -1005,6 +1025,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.updatedAt ?? value;
@@ -1048,6 +1069,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.picture ?? value;
@@ -1087,6 +1109,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             values = result?.pictures ?? values;
@@ -1159,6 +1182,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.rate ?? value;
@@ -1202,6 +1226,7 @@ export default function RequestCreateForm(props) {
               volunteerName: value,
               urgent,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.volunteerName ?? value;
@@ -1245,6 +1270,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent: value,
               tags,
+              compensations,
             };
             const result = onChange(modelFields);
             value = result?.urgent ?? value;
@@ -1284,6 +1310,7 @@ export default function RequestCreateForm(props) {
               volunteerName,
               urgent,
               tags: values,
+              compensations,
             };
             const result = onChange(modelFields);
             values = result?.tags ?? values;
@@ -1323,6 +1350,54 @@ export default function RequestCreateForm(props) {
           {...getOverrideProps(overrides, "tags")}
         ></TextField>
       </ArrayField>
+      <TextField
+        label="Compensations"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={compensations}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              title,
+              description,
+              date,
+              location,
+              seniorID,
+              volunteerID,
+              status,
+              country,
+              locale,
+              seniorFeedback,
+              volunteerFeedback,
+              createdAt,
+              updatedAt,
+              picture,
+              pictures,
+              rate,
+              volunteerName,
+              urgent,
+              tags,
+              compensations: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.compensations ?? value;
+          }
+          if (errors.compensations?.hasError) {
+            runValidationTasks("compensations", value);
+          }
+          setCompensations(value);
+        }}
+        onBlur={() => runValidationTasks("compensations", compensations)}
+        errorMessage={errors.compensations?.errorMessage}
+        hasError={errors.compensations?.hasError}
+        {...getOverrideProps(overrides, "compensations")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

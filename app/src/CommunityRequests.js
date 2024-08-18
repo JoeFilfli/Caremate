@@ -31,12 +31,14 @@ function CommunityRequests() {
 
   const tagOptions = [
     { value: 'All', label: 'All' },
-    { value: 'community', label: 'Community' },
-    { value: 'repair', label: 'Repair' },
-    { value: 'assistance', label: 'Assistance' },
+    { value: 'electrical', label: 'Electrical' },
+    { value: 'plumbing', label: 'Plumbing' },
+    { value: 'physical', label: 'Physical' },
+    { value: 'gardening', label: 'Gardening' },
+    { value: 'shopping', label: 'Shopping' },
     { value: 'technology', label: 'Technology' },
-    { value: 'health', label: 'Health' },
-    { value: 'delivery', label: 'Delivery' },
+    { value: 'medical', label: 'Medical' },
+    { value: 'cooking', label: 'Cooking' },
     { value: 'other', label: 'Other' }
   ];
 
@@ -51,12 +53,15 @@ function CommunityRequests() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const fetchInitialData = async () => {
+      await fetchUser();
+      await fetchRequests();
       setIsPageVisible(true);
-    }, 1000); // Delay of 1 second
-    fetchUser();
-    fetchRequests();
+    };
+    
+    fetchInitialData();
   }, []);
+  
 
   const fetchUser = async () => {
     try {
@@ -122,6 +127,15 @@ function CommunityRequests() {
       setMessage('');
     } catch (error) {
       console.error('Error responding to request:', error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.log('Error signing out:', error);
     }
   };
 
@@ -236,6 +250,11 @@ function CommunityRequests() {
                 <p><strong>Due date:</strong> {request.date ? new Date(request.date).toLocaleString() : 'No date provided'}</p>
                 <p>{request.country || 'No country provided'}</p>
                 <p>{request.locale || 'No locale provided'}</p>
+                <p>
+                {request.compensations ? 
+                  `Compensation: ${request.compensations}$` : 
+                  ''}
+              </p>
                 {request.tags && request.tags.length > 0 && (
                   <div className="community-tags">
                     <strong>Tags:</strong>

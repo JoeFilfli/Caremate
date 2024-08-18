@@ -22,6 +22,8 @@ const PostRequest = () => {
   const [picturePreviews, setPicturePreviews] = useState([]);
   const [listening, setListening] = useState(false);
   const [customTagVisible, setCustomTagVisible] = useState(false);
+  const [compensation, setCompensation] = useState(''); // New state for compensation
+
   const navigate = useNavigate();
 
   const predefinedTags = [
@@ -177,7 +179,9 @@ const PostRequest = () => {
         picture,
         urgent,
         tags: tagsArray,
-        pictures: validPictureUrls
+        pictures: validPictureUrls,
+        compensations: parseFloat(compensation) // Add compensation to the input
+
       };
 
       const result = await client.graphql({
@@ -228,6 +232,13 @@ const PostRequest = () => {
           rows="10"
           cols="50"
           className="pr-textarea"
+        />
+         <input
+          type="number"
+          placeholder="Compensation in dollars" // New input for compensation
+          value={compensation}
+          onChange={(e) => setCompensation(e.target.value)}
+          className="pr-input"
         />
         <button type="button" onClick={startListening} disabled={listening || !recognition} className="pr-add-button">
           {listening ? 'Listening...' : 'Add Description by Voice'}

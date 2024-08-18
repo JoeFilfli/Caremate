@@ -44,6 +44,7 @@ const ForumPage = () => {
   ];
 
   useEffect(() => {
+    window.scroll(0, 0);
     fetchPosts();
     fetchUser();
   }, [sortOption]);
@@ -59,11 +60,11 @@ const ForumPage = () => {
 
   const fetchPosts = async () => {
     try {
-      const result = await client.graphql({ 
-        query: listPosts
+      const result = await client.graphql({
+        query: listPosts,
       });
       let posts = result.data.listPosts.items;
-  
+
       const postsWithAuthors = await Promise.all(
         posts.map(async (post) => {
           try {
@@ -75,16 +76,16 @@ const ForumPage = () => {
           return post;
         })
       );
-  
+
       // Sort posts based on the selected sort option
       if (sortOption === 'oldest') {
         postsWithAuthors.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       } else if (sortOption === 'newest') {
         postsWithAuthors.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if ( sortOption === 'popular') {
+      } else if (sortOption === 'popular') {
         postsWithAuthors.sort((a, b) => (b.likes || 0) - (a.likes || 0));
       }
-  
+
       setPosts(postsWithAuthors);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -143,7 +144,7 @@ const ForumPage = () => {
   };
 
   const toggleLike = (postId) => {
-    const postIndex = posts.findIndex(post => post.id === postId);
+    const postIndex = posts.findIndex((post) => post.id === postId);
     if (postIndex === -1) return;
 
     const updatedPosts = [...posts];
@@ -151,7 +152,7 @@ const ForumPage = () => {
 
     if (post.likedBy && post.likedBy.includes(currentUserId)) {
       post.likes--;
-      post.likedBy = post.likedBy.filter(id => id !== currentUserId);
+      post.likedBy = post.likedBy.filter((id) => id !== currentUserId);
     } else {
       post.likes++;
       if (!post.likedBy) {
@@ -216,7 +217,7 @@ const ForumPage = () => {
     const input = {
       postID: selectedPost.id,
       content: commentContent,
-      authorID: currentUserId
+      authorID: currentUserId,
     };
 
     try {
@@ -234,7 +235,7 @@ const ForumPage = () => {
     const input = {
       commentID: selectedComment.id,
       content: replyContent,
-      authorID: currentUserId
+      authorID: currentUserId,
     };
 
     try {
@@ -254,32 +255,35 @@ const ForumPage = () => {
   };
 
   const filteredPosts = selectedTag && selectedTag.value !== 'All'
-    ? posts.filter(post => {
+    ? posts.filter((post) => {
         const categorizedTags = categorizeTag(post.tags || []);
         return categorizedTags.includes(selectedTag.value);
       })
     : posts;
 
   const myPosts = showMyPostsOnly
-    ? filteredPosts.filter(post => post.authorID === currentUserId)
+    ? filteredPosts.filter((post) => post.authorID === currentUserId)
     : filteredPosts;
-    
-  const anyModalIsOpen = modalIsOpen || replyModalIsOpen || commentsModalIsOpen || repliesModalIsOpen;
 
+  const anyModalIsOpen = modalIsOpen || replyModalIsOpen || commentsModalIsOpen || repliesModalIsOpen;
 
   return (
     <div className="forum-page">
       <header className="forum-header">
         <h1>Community Forum</h1>
         <div className="header-buttons">
-          <Link to="/requests" className="community-nav-button">Go to Community Requests</Link>
-          <Link to="/profile" className="community-nav-button">View Profile</Link>
+          <Link to="/requests" className="community-nav-button">
+            Go to Community Requests
+          </Link>
+          <Link to="/profile" className="community-nav-button">
+            View Profile
+          </Link>
         </div>
       </header>
 
       <div className="filter-container">
         <Select
-          value={sortOptions.find(option => option.value === sortOption)}
+          value={sortOptions.find((option) => option.value === sortOption)}
           onChange={(option) => setSortOption(option.value)}
           options={sortOptions}
           placeholder="Sort by"
@@ -295,7 +299,7 @@ const ForumPage = () => {
       </div>
 
       <section className="forum-posts">
-        {myPosts.map(post => (
+        {myPosts.map((post) => (
           <div key={post.id} className="forum-post">
             <div className="author-info">
               {post.author && (
@@ -309,18 +313,26 @@ const ForumPage = () => {
             <p>{post.content}</p>
             <p className="post-date">Posted on: {new Date(post.createdAt).toLocaleDateString()}</p>
             <div className="post-pictures">
-              {Array.isArray(post.pictures) && post.pictures.map((picture, index) => (
-                <img key={index} src={picture} alt={`Post picture ${index + 1}`} className="post-picture" />
-              ))}
+              {Array.isArray(post.pictures) &&
+                post.pictures.map((picture, index) => (
+                  <img key={index} src={picture} alt={`Post picture ${index + 1}`} className="post-picture" />
+                ))}
             </div>
             <div className="post-tags">
-              {Array.isArray(post.tags) && post.tags.map((tag, index) => (
-                <span key={index} className="post-tag">{tag}</span>
-              ))}
+              {Array.isArray(post.tags) &&
+                post.tags.map((tag, index) => (
+                  <span key={index} className="post-tag">
+                    {tag}
+                  </span>
+                ))}
             </div>
             <div className="post-actions">
               <button className="like-button" onClick={() => toggleLike(post.id)}>
-                <FaThumbsUp className={`thumbs-up-icon ${(post.likedBy && post.likedBy.includes(currentUserId)) ? 'liked' : ''}`} />
+                <FaThumbsUp
+                  className={`thumbs-up-icon ${
+                    post.likedBy && post.likedBy.includes(currentUserId) ? 'liked' : ''
+                  }`}
+                />
                 <span className="like-count">{post.likes}</span>
               </button>
               <button type="button" onClick={() => openCommentModal(post)} className="comment-button">
@@ -335,92 +347,143 @@ const ForumPage = () => {
       </section>
 
       {/* Comment Modal */}
-      <Modal isOpen={modalIsOpen} onRequestClose={closeCommentModal} contentLabel="Add Comment">
-        <h2>Add a Comment</h2>
-        <form onSubmit={handleCommentSubmit}>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeCommentModal}
+        contentLabel="Add Comment"
+        className="comment-modal"
+        overlayClassName="comment-modal-overlay"
+      >
+        <h2 className="modal-title">Add a Comment</h2>
+        <form onSubmit={handleCommentSubmit} className="modal-form">
           <textarea
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
             placeholder="Write your comment here..."
+            className="modal-textarea"
           />
-          <button type="submit">Submit</button>
-          <button type="button" onClick={closeCommentModal}>Cancel</button>
+          <div className="modal-buttons">
+            <button type="submit" className="modal-submit-button">
+              Submit
+            </button>
+            <button type="button" onClick={closeCommentModal} className="modal-cancel-button">
+              Cancel
+            </button>
+          </div>
         </form>
       </Modal>
 
       {/* Comments Modal */}
-      <Modal isOpen={commentsModalIsOpen} onRequestClose={closeCommentsModal} contentLabel="View Comments">
+      <Modal
+        isOpen={commentsModalIsOpen}
+        onRequestClose={closeCommentsModal}
+        contentLabel="View Comments"
+        className="comments-modal"
+        overlayClassName="comments-modal-overlay"
+      >
         <div className="modal-header">
-          <h2>Comments</h2>
-          <button type="button" className="close-button" onClick={closeCommentsModal}>Close</button>
+          <h2 className="modal-title">Comments</h2>
+          <button type="button" className="close-button" onClick={closeCommentsModal}>
+            Close
+          </button>
         </div>
-        {selectedPost && Array.isArray(selectedPost.comments) && selectedPost.comments.map(comment => (
-          <div key={comment.id} className="comment">
-            <div className="author-info">
-              {comment.author && (
-                <>
-                  <img src={comment.author.picture} alt={`${comment.author.name}'s profile`} className="author-picture" />
-                  <p className="author-name">{comment.author.name}</p>
-                </>
-              )}
+        {selectedPost &&
+          Array.isArray(selectedPost.comments) &&
+          selectedPost.comments.map((comment) => (
+            <div key={comment.id} className="comment">
+              <div className="author-info">
+                {comment.author && (
+                  <>
+                    <img src={comment.author.picture} alt={`${comment.author.name}'s profile`} className="author-picture" />
+                    <p className="author-name">{comment.author.name}</p>
+                  </>
+                )}
+              </div>
+              <p>{comment.content}</p>
+              <div className="replies">
+                <p>Replies:</p>
+                <ul>
+                  {Array.isArray(comment.replies) &&
+                    comment.replies.map((reply) => (
+                      <li key={reply.id} className="reply">
+                        <div className="author-info">
+                          {reply.author && (
+                            <>
+                              <img
+                                src={reply.author.picture}
+                                alt={`${reply.author.name}'s profile`}
+                                className="author-picture"
+                              />
+                              <p className="author-name">{reply.author.name}</p>
+                            </>
+                          )}
+                        </div>
+                        <p>{reply.content}</p>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+              <button type="button" onClick={() => openReplyModal(comment)} className="reply-button">
+                <FaCommentDots />
+              </button>
             </div>
-            <p>{comment.content}</p>
-            <div className="replies">
-              <p>Replies:</p>
-              <ul>
-                {Array.isArray(comment.replies) && comment.replies.map(reply => (
-                  <li key={reply.id} className="reply">
-                    <div className="author-info">
-                      {reply.author && (
-                        <>
-                          <img src={reply.author.picture} alt={`${reply.author.name}'s profile`} className="author-picture" />
-                          <p className="author-name">{reply.author.name}</p>
-                        </>
-                      )}
-                    </div>
-                    <p>{reply.content}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <button type="button" onClick={() => openReplyModal(comment)} className="reply-button">
-              <FaCommentDots />
-            </button>
-          </div>
-        ))}
+          ))}
       </Modal>
 
       {/* Reply Modal */}
-      <Modal isOpen={replyModalIsOpen} onRequestClose={closeReplyModal} contentLabel="Add Reply">
-        <h2>Add a Reply</h2>
-        <form onSubmit={handleReplySubmit}>
+      <Modal
+        isOpen={replyModalIsOpen}
+        onRequestClose={closeReplyModal}
+        contentLabel="Add Reply"
+        className="reply-modal"
+        overlayClassName="reply-modal-overlay"
+      >
+        <h2 className="modal-title">Add a Reply</h2>
+        <form onSubmit={handleReplySubmit} className="modal-form">
           <textarea
             value={replyContent}
             onChange={(e) => setReplyContent(e.target.value)}
             placeholder="Write your reply here..."
+            className="modal-textarea"
           />
-          <button type="submit">Submit</button>
-          <button type="button" onClick={closeReplyModal}>Cancel</button>
+          <div className="modal-buttons">
+            <button type="submit" className="modal-submit-button">
+              Submit
+            </button>
+            <button type="button" onClick={closeReplyModal} className="modal-cancel-button">
+              Cancel
+            </button>
+          </div>
         </form>
       </Modal>
 
       {/* Replies Modal */}
-      <Modal isOpen={repliesModalIsOpen} onRequestClose={closeRepliesModal} contentLabel="View Replies">
-        <h2>Replies</h2>
-        {selectedComment && Array.isArray(selectedCommentReplies) && selectedCommentReplies.map(reply => (
-          <div key={reply.id} className="reply">
-            <div className="author-info">
-              {reply.author && (
-                <>
-                  <img src={reply.author.picture} alt={`${reply.author.name}'s profile`} className="author-picture" />
-                  <p className="author-name">{reply.author.name}</p>
-                </>
-              )}
+      <Modal
+        isOpen={repliesModalIsOpen}
+        onRequestClose={closeRepliesModal}
+        contentLabel="View Replies"
+        className="replies-modal"
+        overlayClassName="replies-modal-overlay"
+      >
+        <h2 className="modal-title">Replies</h2>
+        {selectedComment &&
+          Array.isArray(selectedCommentReplies) &&
+          selectedCommentReplies.map((reply) => (
+            <div key={reply.id} className="reply">
+              <div className="author-info">
+                {reply.author && (
+                  <>
+                    <img src={reply.author.picture} alt={`${reply.author.name}'s profile`} className="author-picture" />
+                    <p className="author-name">{reply.author.name}</p>
+                  </>
+                )}
+              </div>
+              <p>{reply.content}</p>
             </div>
-            <p>{reply.content}</p>
-          </div>
-        ))}
-        <button type="button" onClick={closeRepliesModal}>Close</button>
+          ))}
+        <button type="button" onClick={closeRepliesModal}>
+          Close
+        </button>
       </Modal>
 
       {!anyModalIsOpen && (

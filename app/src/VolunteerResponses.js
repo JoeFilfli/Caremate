@@ -112,6 +112,11 @@ const VolunteerResponses = () => {
                       <p><strong>Description:</strong> {request.description}</p>
                       <p><strong>Date:</strong> {new Date(request.date).toLocaleString()}</p>
                       <p><strong>Location:</strong> {request.location}</p>
+                      <p>
+                      {request.compensations ? 
+                        `Compensation: ${request.compensations}$` : 
+                        ''}
+                    </p>
                       {request.updatedAt && <p><strong>Updated at:</strong> {new Date(request.updatedAt).toLocaleString()}</p>}
                       <p><strong>Status:</strong> {request.status}</p>
                       {request.pictures && Array.isArray(request.pictures) && (
