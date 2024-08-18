@@ -1,17 +1,22 @@
 # React App
 
-Welcome to your React application! This project is a [brief description of what your application does]. It is part of the Amazon Industry Program.
+This project is a web application designed to connect volunteers with seniors who need assistance. The platform allows seniors to post requests for help, which volunteers can respond to and fulfill. Additionally, the application features a forum page where users can engage in discussions, share experiences, and provide mutual support. This project is part of the Amazon Industry Program, providing a valuable resource for communities by fostering connections and facilitating assistance.
+
 
 ## Table of Contents
-
+* [Access the Live Application](#access-the-live-application)
 * [Installation](#installation)
 * [Running the App](#running-the-app)
 * [Build](#build)
 * [Deployment](#deployment)
-* [Access the Live Application](#access-the-live-application)
 * [Contributing](#contributing)
-* [License](#license)
 
+## Access the Live Application
+
+As part of the Amazon Industry Program, this React app is hosted online and can be accessed directly without local setup:
+```bash
+https://dev.dg764b52xcvov.amplifyapp.com/
+```
 ## Installation
 
 ### Prerequisites
@@ -29,14 +34,13 @@ Before you begin, ensure you have the following installed on your machine:
 2. Use Git to clone this repository to your local machine:
 
    ```bash
-   git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+   git clone https://github.com/JoeFilfli/Vivia.giit
    ```
-   Replace `https://github.com/your-username/your-repo-name.git` with the actual URL for your repository.
-
+   
 3. Navigate to the project directory:
 
    ```bash
-   cd your-repo-name
+   cd app
    ```
 
 ### Install Dependencies
@@ -84,20 +88,9 @@ This will generate a `build` folder containing static files ready for deployment
 
 ## Deployment
 
-There are various services you can use to deploy your React app, such as:
 
-* Netlify
-* Vercel
-* GitHub Pages
 * AWS Amplify
 
-Specific instructions for each service vary and can be found on their respective documentation websites.
-
-## Access the Live Application
-
-As part of the Amazon Industry Program, this React app is hosted online and can be accessed directly without local setup:
-
-**[Replace `https://your-live-app-link.com` with the actual URL of your live application.]**
 
 ## Contributing
 
@@ -110,15 +103,3 @@ We welcome your contributions to this project! Here's how to get started:
 
 We appreciate your contribution to making this project better!
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-```
-
-**To use this:**
-
-1. Create a new file named `README.md` in your project's root directory.
-2. Paste the entire content of this response into that file.
-3. Save the file.
-
-This README.md file will provide clear instructions and information about your React project.
