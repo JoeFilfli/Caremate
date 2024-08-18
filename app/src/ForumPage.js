@@ -263,6 +263,9 @@ const ForumPage = () => {
   const myPosts = showMyPostsOnly
     ? filteredPosts.filter(post => post.authorID === currentUserId)
     : filteredPosts;
+    
+  const anyModalIsOpen = modalIsOpen || replyModalIsOpen || commentsModalIsOpen || repliesModalIsOpen;
+
 
   return (
     <div className="forum-page">
@@ -420,11 +423,12 @@ const ForumPage = () => {
         <button type="button" onClick={closeRepliesModal}>Close</button>
       </Modal>
 
-      {/* Post Button */}
-      <Link to="/post-form" className="forum-post-button">
-        <FaPlus className="plus-icon" />
-        <span className="post-text">Post</span>
-      </Link>
+      {!anyModalIsOpen && (
+        <Link to="/post-form" className="forum-post-button">
+          <FaPlus className="plus-icon" />
+          <span className="post-text">Post</span>
+        </Link>
+      )}
     </div>
   );
 };

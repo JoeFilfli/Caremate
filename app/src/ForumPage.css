@@ -277,7 +277,7 @@ body {
 
 .forum-post-button {
   position: fixed;  /* Fixed position */
-  top: 400px;  /* Lowered from 20px to 60px */
+  top: 300px;  /* Lowered from 20px to 60px */
   left: 20px;  /* Keep it 20px from the left */
   z-index: 1000;  /* Ensure it stays above other elements */
   display: flex;
