@@ -29,6 +29,20 @@ function App() {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.chatbase.co/embed.min.js';
+    script.setAttribute('chatbotId', 'VNdweRJKugZVtfygwxOJz');
+    script.setAttribute('domain', 'www.chatbase.co');
+    script.defer = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  
+  useEffect(() => {
     checkUser();
   }, []);
 

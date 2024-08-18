@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
-import { createPost, createComment } from './graphql/mutations'; // Import createComment for auto comment
+import { createPost, createComment } from './graphql/mutations';
 import { uploadData } from 'aws-amplify/storage';
 import { fetchUserAttributes } from 'aws-amplify/auth';
+import { FaMicrophone, FaTimes } from 'react-icons/fa';
 import { GoogleGenerativeAI } from '@google/generative-ai'; // Import Google Generative AI
 import './PostForm.css';
 
 const client = generateClient();
-const genAI = new GoogleGenerativeAI("AIzaSyAt68qPaTE-cVY0UcmbqhNhWPvIawAx8_Y");
+const genAI = new GoogleGenerativeAI("AIzaSyAt68qPaTE-cVY0UcmbqhNhWPvIawAx8_Y"); // Initialize GoogleGenerativeAI
 
-const predefinedTags = ["Medical", "News", "Hobbies", "Other"];
+const predefinedTags = [
+  "Medical", "News", "Support", "Community", "Other"
+];
 
 const PostForm = () => {
   const [title, setTitle] = useState('');
@@ -67,7 +70,7 @@ const PostForm = () => {
 
         canvas.toBlob((blob) => {
           callback(blob);
-        }, file.type, 0.8); // Adjust quality as needed
+        }, file.type, 0.8); 
       };
     };
 
@@ -105,30 +108,24 @@ const PostForm = () => {
 
   const createAutoComment = async (postDescription) => {
     try {
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        const result = await model.generateContent([postDescription]);
-        let text = result.response.text();
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const result = await model.generateContent([postDescription]);
+      let text = result.response.text();
 
-        // Remove instructional content from the output
-        text = text.replace(/Please tell me what you want to test Gemini on![\s\S]*?(?=\*)/g, '').trim();
+      text = text.replace(/Please tell me what you want to test Gemini on![\s\S]*?(?=\*)/g, '').trim();
+      text = text.replace(/[\*]{1,2}\s.*[\*]{1,2}/g, ''); 
+      text = text.replace(/:\s*/, ': '); 
+      text = text.replace(/\s*\n\s*/g, '\n'); 
 
-        // Further clean up text if necessary
-        text = text.replace(/[\*]{1,2}\s.*[\*]{1,2}/g, ''); // Remove any lines starting with "*"
-        text = text.replace(/:\s*/, ': '); // Ensure proper spacing after colons
-        text = text.replace(/\s*\n\s*/g, '\n'); // Normalize newlines
-
-        // Basic formatting and sanitizing
-        return text
-            .trim() // Remove any leading or trailing whitespace
-            .replace(/\n\s*\n/g, '\n\n') // Replace multiple newlines with a single newline
-            .replace(/ {2,}/g, ' '); // Replace multiple spaces with a single space
+      return text
+        .trim() 
+        .replace(/\n\s*\n/g, '\n\n') 
+        .replace(/ {2,}/g, ' '); 
     } catch (error) {
-        console.error('Error generating comment:', error);
-        return null;
+      console.error('Error generating comment:', error);
+      return null;
     }
-};
-
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -167,18 +164,16 @@ const PostForm = () => {
     };
 
     try {
-      // Create the post
       const postResult = await client.graphql({ query: createPost, variables: { input } });
       const createdPost = postResult.data.createPost;
       navigate('/forum');
 
-      // Generate an auto-comment using the description of the post
       const autoComment = await createAutoComment(content);
       if (autoComment) {
         const commentInput = {
           postID: createdPost.id,
           content: autoComment,
-          authorID: 'jrf07@mail.aub.edu', // Use a specific authorID for the bot-generated comment
+          authorID: 'jrf07@mail.aub.edu',
         };
         await client.graphql({ query: createComment, variables: { input: commentInput } });
       }
@@ -186,19 +181,15 @@ const PostForm = () => {
     } catch (error) {
       console.error('Error posting request:', error);
       if (error.response && error.response.data && error.response.data.errors) {
-        // Handle GraphQL errors
         setErrorMessage(error.response.data.errors[0].message);
       } else if (error.message) {
-        // Handle other errors (e.g., network errors)
         setErrorMessage(error.message);
       } else {
-        // Generic fallback error message
         setErrorMessage('An unexpected error occurred. Please try again.');
       }
     }
   };
 
-  // Speech Recognition Setup
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
@@ -222,6 +213,9 @@ const PostForm = () => {
 
   return (
     <div className="pr-page">
+      <button className="close-button" onClick={() => navigate('/forum')}>
+        <FaTimes />
+      </button>
       <form onSubmit={handleSubmit} className="pr-form">
         <h2>Post to Forum</h2>
         <input
@@ -241,18 +235,17 @@ const PostForm = () => {
           type="button"
           onClick={startListening}
           disabled={listening || !recognition}
-          className="pr-add-button voice-button"
+          className="pr-microphone-button"
+          title="Speech-to-text"
         >
-          {listening ? 'Listening...' : 'Add Description by Voice'}
+          <FaMicrophone />
         </button>
-
         <input
           type="file"
           multiple
           onChange={handleFileChange}
           className="pr-input"
         />
-
         <div className="pr-photo-thumbnails">
           {pictures.map((picture, index) => (
             <div key={index} className="pr-photo-thumbnail">
@@ -263,7 +256,6 @@ const PostForm = () => {
             </div>
           ))}
         </div>
-
         <div className="pr-tag-input">
           <select
             value={selectedPredefinedTag}
@@ -277,7 +269,6 @@ const PostForm = () => {
               </option>
             ))}
           </select>
-
           {selectedPredefinedTag === 'Other' && (
             <input
               type="text"
@@ -295,7 +286,6 @@ const PostForm = () => {
             Add Tag
           </button>
         </div>
-
         <div className="pr-tags-list">
           {tags.map((tag, index) => (
             <div key={index} className="pr-tag">
@@ -306,7 +296,6 @@ const PostForm = () => {
             </div>
           ))}
         </div>
-
         <button type="submit" className="pr-button">
           Post
         </button>

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
-import { listPosts, getUser, commentsByPostIDAndId, repliesByCommentIDAndId } from './graphql/queries';
-import { createComment, createReply, createPost,deletePost } from './graphql/mutations';
-import LikeButton from './LikeButton';
-import './ViewMyPostsPage.css';
+import { listPosts, getUser, commentsByPostIDAndId, repliesByCommentIDAndId, postsByAuthorIDAndId } from './graphql/queries';
+import { createComment, createReply, deletePost } from './graphql/mutations';
+import './ForumPage.css';
 import Modal from 'react-modal';
 import { fetchUserAttributes } from 'aws-amplify/auth';
-import { signOut } from 'aws-amplify/auth';
 import Select from 'react-select';
-import { postsByAuthorIDAndId } from './graphql/queries';
+import { FaThumbsUp, FaCommentDots, FaEye, FaPlus } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
+
 
 const client = generateClient();
 
-const FetchMyPosts = () => {
+const ForumPage = () => {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [selectedComment, setSelectedComment] = useState(null);
@@ -32,11 +32,13 @@ const FetchMyPosts = () => {
 
   const tagOptions = [
     { value: 'All', label: 'All' },
-    { value: 'medical', label: 'Medical' },
     { value: 'news', label: 'News' },
-    { value: 'hobbies', label: 'Hobbies' },
+    { value: 'medical', label: 'Medical' },
+    { value: 'support', label: 'Support' },
+    { value: 'community', label: 'Community' },
     { value: 'other', label: 'Other' }
   ];
+
   const sortOptions = [
     { value: 'newest', label: 'Newest' },
     { value: 'oldest', label: 'Oldest' },
@@ -54,16 +56,6 @@ const FetchMyPosts = () => {
       fetchPosts(user.email);
     } catch (error) {
       console.error('Error fetching user:', error);
-    }
-
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.log('Error signing out:', error);
     }
   };
 
@@ -89,8 +81,6 @@ const FetchMyPosts = () => {
       console.error('Error fetching posts:', error);
     }
   };
-  
-
 
   const fetchCommentsByPost = async (postID) => {
     try {
@@ -141,6 +131,27 @@ const FetchMyPosts = () => {
       console.error('Error fetching replies:', error);
       return [];
     }
+  };
+
+  const toggleLike = (postId) => {
+    const postIndex = posts.findIndex(post => post.id === postId);
+    if (postIndex === -1) return;
+
+    const updatedPosts = [...posts];
+    const post = updatedPosts[postIndex];
+
+    if (post.likedBy && post.likedBy.includes(currentUserId)) {
+      post.likes--;
+      post.likedBy = post.likedBy.filter(id => id !== currentUserId);
+    } else {
+      post.likes++;
+      if (!post.likedBy) {
+        post.likedBy = [];
+      }
+      post.likedBy.push(currentUserId);
+    }
+
+    setPosts(updatedPosts);
   };
 
   const openCommentModal = (post) => {
@@ -243,8 +254,10 @@ const FetchMyPosts = () => {
   const myPosts = showMyPostsOnly
     ? filteredPosts.filter(post => post.authorID === currentUserId)
     : filteredPosts;
+    
+  const anyModalIsOpen = modalIsOpen || replyModalIsOpen || commentsModalIsOpen || repliesModalIsOpen;
 
-const handleDeletePost = async (postId) => {
+  const handleDeletePost = async (postId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this post?");
     if (confirmDelete) {
       try {
@@ -265,11 +278,17 @@ const handleDeletePost = async (postId) => {
         <div className="header-buttons">
           <Link to="/requests" className="community-nav-button">Go to Community Requests</Link>
           <Link to="/profile" className="community-nav-button">View Profile</Link>
-          <button onClick={handleSignOut} className="community-signout-button">Sign Out</button>
         </div>
       </header>
 
-      <div className="tag-filter">
+      <div className="filter-container">
+        <Select
+          value={sortOptions.find(option => option.value === sortOption)}
+          onChange={(option) => setSortOption(option.value)}
+          options={sortOptions}
+          placeholder="Sort by"
+          className="sort-select"
+        />
         <Select
           value={selectedTag}
           onChange={setSelectedTag}
@@ -277,16 +296,6 @@ const handleDeletePost = async (postId) => {
           placeholder="Select a tag"
           className="tag-select"
         />
-         <Select
-          value={sortOptions.find(option => option.value === sortOption)}
-          onChange={(option) => setSortOption(option.value)}
-          options={sortOptions}
-          placeholder="Sort by"
-          className="sort-select"
-        />
-        <Link to="/post-form" className="forum-button">Post To Forum</Link>
-        <Link to="/forum" className="forum-button">Back To Forum</Link>
-
       </div>
 
       <section className="forum-posts">
@@ -313,16 +322,25 @@ const handleDeletePost = async (postId) => {
                 <span key={index} className="post-tag">{tag}</span>
               ))}
             </div>
-            <LikeButton postId={post.id} likes={post.likes} likedBy={post.likedBy || []} />
-            <button type="button" onClick={() => openCommentModal(post)}>Comment</button>
-            <button type="button" onClick={() => openCommentsModal(post)}>View Comments</button>
-            <button 
-              className="delete-button" 
-              onClick={() => handleDeletePost(post.id)}
-            >
-              Delete
+            <div className="post-actions">
+              <button className="like-button" onClick={() => toggleLike(post.id)}>
+                <FaThumbsUp className={`thumbs-up-icon ${(post.likedBy && post.likedBy.includes(currentUserId)) ? 'liked' : ''}`} />
+                <span className="like-count">{post.likes}</span>
+              </button>
+              <button type="button" onClick={() => openCommentModal(post)} className="comment-button">
+                <FaCommentDots />
+              </button>
+              <button type="button" onClick={() => openCommentsModal(post)} className="view-comments-button">
+                <FaEye /> {/* Icon for view comments */}
+              </button>
+              <button 
+                className="delete-button" 
+                onClick={() => handleDeletePost(post.id)}
+                style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+              >
+                <FaTrash style={{ color: 'red' }} />
             </button>
-           
+            </div>
           </div>
         ))}
       </section>
@@ -376,7 +394,9 @@ const handleDeletePost = async (postId) => {
                 ))}
               </ul>
             </div>
-            <button type="button" onClick={() => openReplyModal(comment)}>Reply</button>
+            <button type="button" onClick={() => openReplyModal(comment)} className="reply-button">
+              <FaCommentDots />
+            </button>
           </div>
         ))}
       </Modal>
@@ -413,8 +433,10 @@ const handleDeletePost = async (postId) => {
         ))}
         <button type="button" onClick={closeRepliesModal}>Close</button>
       </Modal>
+
+      
     </div>
   );
 };
 
-export default FetchMyPosts;
+export default ForumPage; 
