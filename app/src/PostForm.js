@@ -105,15 +105,30 @@ const PostForm = () => {
 
   const createAutoComment = async (postDescription) => {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const result = await model.generateContent([postDescription]);
+        let text = result.response.text();
 
-      const result = await model.generateContent([postDescription]);
-      return result.response.text();
+        // Remove instructional content from the output
+        text = text.replace(/Please tell me what you want to test Gemini on![\s\S]*?(?=\*)/g, '').trim();
+
+        // Further clean up text if necessary
+        text = text.replace(/[\*]{1,2}\s.*[\*]{1,2}/g, ''); // Remove any lines starting with "*"
+        text = text.replace(/:\s*/, ': '); // Ensure proper spacing after colons
+        text = text.replace(/\s*\n\s*/g, '\n'); // Normalize newlines
+
+        // Basic formatting and sanitizing
+        return text
+            .trim() // Remove any leading or trailing whitespace
+            .replace(/\n\s*\n/g, '\n\n') // Replace multiple newlines with a single newline
+            .replace(/ {2,}/g, ' '); // Replace multiple spaces with a single space
     } catch (error) {
-      console.error('Error generating comment:', error);
-      return null;
+        console.error('Error generating comment:', error);
+        return null;
     }
-  };
+};
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,6 +170,7 @@ const PostForm = () => {
       // Create the post
       const postResult = await client.graphql({ query: createPost, variables: { input } });
       const createdPost = postResult.data.createPost;
+      navigate('/forum');
 
       // Generate an auto-comment using the description of the post
       const autoComment = await createAutoComment(content);
@@ -167,7 +183,6 @@ const PostForm = () => {
         await client.graphql({ query: createComment, variables: { input: commentInput } });
       }
 
-      navigate('/forum');
     } catch (error) {
       console.error('Error posting request:', error);
       if (error.response && error.response.data && error.response.data.errors) {
@@ -293,7 +308,7 @@ const PostForm = () => {
         </div>
 
         <button type="submit" className="pr-button">
-          Post Request
+          Post
         </button>
       </form>
     </div>

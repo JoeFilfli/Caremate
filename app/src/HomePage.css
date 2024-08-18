@@ -234,36 +234,44 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 20px; /* Added gap between testimonials */
 }
 
 .testimonial-item {
   background-color: #4CAF50; /* Green background */
-  color: white; /* Adjust text color for contrast */
+  color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 10px;
-  max-width: 300px;
+  max-width: 450px; /* Increased width */
+  height: auto; /* Adjust height dynamically */
   text-align: left;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center text horizontally */
 }
 
 .testimonial-image {
-  width: 50px;
-  height: 50px;
+  width: 120px;  /* Further enlarged image size */
+  height: 120px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .testimonial-item p {
-  font-size: 1.25rem; /* Larger font size */
+  font-size: 1.25rem;
   line-height: 1.5;
+  text-align: center; /* Center-align text */
+  margin-bottom: 10px;
 }
 
 .testimonial-item span {
   display: block;
   margin-top: 10px;
   font-weight: bold;
+  text-align: center; /* Center-align names */
 }
 
 /* How it works section */

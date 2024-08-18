@@ -30,6 +30,8 @@ body {
 }
 
 .first-aid-section,
+.disaster-prep-section,
+.mental-health-section,
 .help-numbers-section {
   margin: 20px 0;
   padding: 20px;
@@ -39,29 +41,39 @@ body {
 }
 
 .first-aid-section h2,
+.disaster-prep-section h2,
+.mental-health-section h2,
 .help-numbers-section h2 {
   color: #ff4d4d;
   font-size: 2rem;
   margin-bottom: 10px;
 }
 
-.first-aid-section ul {
+.first-aid-section ul,
+.disaster-prep-section ul,
+.mental-health-section ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.first-aid-section li {
+.first-aid-section li,
+.disaster-prep-section li,
+.mental-health-section li {
   margin: 10px 0;
 }
 
-.first-aid-section h3 {
+.first-aid-section h3,
+.disaster-prep-section h3,
+.mental-health-section h3 {
   color: #ff4d4d;
   font-size: 1.5rem;
   margin-bottom: 5px;
 }
 
-.first-aid-section p {
+.first-aid-section p,
+.disaster-prep-section p,
+.mental-health-section p {
   font-size: 1.2rem;
   margin-left: 10px;
 }
@@ -125,11 +137,15 @@ body {
   }
 
   .first-aid-section h2,
+  .disaster-prep-section h2,
+  .mental-health-section h2,
   .help-numbers-section h2 {
     font-size: 1.5rem;
   }
 
   .first-aid-section p,
+  .disaster-prep-section p,
+  .mental-health-section p,
   .help-number p {
     font-size: 1rem;
   }
@@ -150,11 +166,15 @@ body {
   }
 
   .first-aid-section h2,
+  .disaster-prep-section h2,
+  .mental-health-section h2,
   .help-numbers-section h2 {
     font-size: 1.2rem;
   }
 
   .first-aid-section p,
+  .disaster-prep-section p,
+  .mental-health-section p,
   .help-number p {
     font-size: 0.9rem;
   }

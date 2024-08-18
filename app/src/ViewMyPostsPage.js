@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
 import { listPosts, getUser, commentsByPostIDAndId, repliesByCommentIDAndId } from './graphql/queries';
-import { createComment, createReply, createPost } from './graphql/mutations';
+import { createComment, createReply, createPost,deletePost } from './graphql/mutations';
 import LikeButton from './LikeButton';
-import './ForumPage.css';
+import './ViewMyPostsPage.css';
 import Modal from 'react-modal';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { signOut } from 'aws-amplify/auth';
 import Select from 'react-select';
+import { postsByAuthorIDAndId } from './graphql/queries';
 
 const client = generateClient();
 
-const ForumPage = () => {
+const FetchMyPosts = () => {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [selectedComment, setSelectedComment] = useState(null);
@@ -43,7 +44,6 @@ const ForumPage = () => {
   ];
 
   useEffect(() => {
-    fetchPosts();
     fetchUser();
   }, [sortOption]);
 
@@ -51,9 +51,11 @@ const ForumPage = () => {
     try {
       const user = await fetchUserAttributes();
       setCurrentUserId(user.email);
+      fetchPosts(user.email);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
+
   };
 
   const handleSignOut = async () => {
@@ -65,13 +67,13 @@ const ForumPage = () => {
     }
   };
 
-
-  const fetchPosts = async () => {
+  const fetchPosts = async (userId) => {
     try {
-      const result = await client.graphql({ 
-        query: listPosts
-      });
-      let posts = result.data.listPosts.items;
+        const result = await client.graphql({ 
+            query: postsByAuthorIDAndId, 
+            variables: { authorID: userId } 
+          });
+          let posts = result.data.postsByAuthorIDAndId.items;
       
       // Sort posts based on the selected sort option
       if (sortOption === 'oldest') {
@@ -242,6 +244,20 @@ const ForumPage = () => {
     ? filteredPosts.filter(post => post.authorID === currentUserId)
     : filteredPosts;
 
+const handleDeletePost = async (postId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
+      try {
+        await client.graphql({
+          query: deletePost,
+          variables: { input: { id: postId } },
+        });
+        setPosts(myPosts.filter(post => post.id !== postId));
+      } catch (error) {
+        console.error('Error deleting post:', error);
+      }
+    }
+  };
   return (
     <div className="forum-page">
       <header className="forum-header">
@@ -269,7 +285,7 @@ const ForumPage = () => {
           className="sort-select"
         />
         <Link to="/post-form" className="forum-button">Post To Forum</Link>
-        <Link to="/view-my-posts" className="forum-button">View My Posts</Link>
+        <Link to="/forum" className="forum-button">Back To Forum</Link>
 
       </div>
 
@@ -300,6 +316,13 @@ const ForumPage = () => {
             <LikeButton postId={post.id} likes={post.likes} likedBy={post.likedBy || []} />
             <button type="button" onClick={() => openCommentModal(post)}>Comment</button>
             <button type="button" onClick={() => openCommentsModal(post)}>View Comments</button>
+            <button 
+              className="delete-button" 
+              onClick={() => handleDeletePost(post.id)}
+            >
+              Delete
+            </button>
+           
           </div>
         ))}
       </section>
@@ -394,4 +417,4 @@ const ForumPage = () => {
   );
 };
 
-export default ForumPage;
+export default FetchMyPosts;

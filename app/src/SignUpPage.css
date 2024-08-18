@@ -1,154 +1,174 @@
-  /* General styles */
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* Sign-up page container */
+/* Sign-up page container */
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #EDE7F6; /* Light purple background */
+  padding: 20px;
+}
+
+/* Sign-up section styling */
+.signup-section {
+  background-color: #ffffff;
+  border-radius: 15px; /* More rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 30px; /* Increased padding */
+  margin: 20px;
+  width: 100%;
+  max-width: 450px; /* Slightly wider */
+  text-align: center; /* Center-align text */
+}
+
+/* Toggle buttons container */
+.toggle-buttons {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Toggle button styling */
+.toggle-buttons button {
+  background-color: #6A1B9A;
+  color: white;
+  border: none;
+  padding: 15px 30px; /* Increased padding */
+  margin: 5px;
+  border-radius: 10px; /* More rounded */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.toggle-buttons button.active {
+  background-color: #4A148C;
+  transform: scale(1.2); /* Enlarge the active button */
+}
+
+.toggle-buttons button:hover {
+  background-color: #4A148C;
+}
+
+.toggle-buttons button:not(.active) {
+  transform: scale(0.9); /* Shrink non-active button */
+}
+
+/* Form styling */
+.signup-section form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.signup-section label {
+  margin: 10px 0;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.signup-section input[type="text"],
+.signup-section input[type="email"],
+.signup-section input[type="password"],
+.signup-section input[type="date"] {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  margin: 5px 0;
+  border-radius: 8px; /* More rounded */
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Custom Select styling */
+.signup-section .Select__control {
+  width: 100%;
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.signup-section .Select__control--is-focused {
+  border-color: #4CAF50;
+}
+
+/* Button styling */
+.signup-section button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 8px; /* More rounded */
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1.1rem; /* Slightly larger font */
+  transition: background-color 0.3s ease;
+}
+
+.signup-section button[type="submit"]:hover {
+  background-color: #388E3C;
+}
+
+/* Checkbox styling */
+.signup-section input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Error message styling */
+.signup-section .error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* Link to Sign In page styling */
+.link_to_signin {
+  color: #6A1B9A;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.link_to_signin:hover {
+  color: #4A148C;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
   .signup-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #f8f9fa;
-    padding: 20px;
-  }
-
-  /* Sign-up section styling */
-  .signup-section {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-    width: 100%;
-    max-width: 400px;
-    text-align: left;
-  }
-
-  /* Toggle buttons container */
-  .toggle-buttons {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  /* Toggle button styling */
-  .toggle-buttons button {
-    background-color: #6A1B9A;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    flex: 1;
-  }
-
-  .toggle-buttons button.active {
-    background-color: #4A148C;
-  }
-
-  .toggle-buttons button:hover {
-    background-color: #4A148C;
-  }
-
-  /* Form styling */
-  .signup-section form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .signup-section label {
-    margin: 10px 0;
-    font-size: 1rem;
-  }
-
-  .signup-section input[type="text"],
-  .signup-section input[type="email"],
-  .signup-section input[type="password"],
-  .signup-section input[type="date"] {
-    width: 100%;
     padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 1rem;
   }
 
-  .signup-section button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 1rem;
+  .signup-section {
+    padding: 20px;
+    margin: 10px;
   }
 
-  .signup-section button:click {
-    background-color: #388E3C;
+  .toggle-buttons {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  /* Checkbox styling */
-  .signup-section input[type="checkbox"] {
-    margin-right: 10px;
+  .toggle-buttons button {
+    padding: 12px 20px;
+    font-size: 0.9rem;
   }
 
-  @media (max-width: 600px) {
-    .signup-page {
-      padding: 10px;
-    }
-
-    .signup-section {
-      padding: 15px;
-      margin: 10px;
-    }
-
-    .toggle-buttons button {
-      padding: 10px;
-      font-size: 0.9rem;
-    }
-
-    .signup-section input[type="text"],
-    .signup-section input[type="email"],
-    .signup-section input[type="password"],
-    .signup-section input[type="date"] {
-      padding: 10px;
-      font-size: 0.9rem;
-    }
-
-    .signup-section button {
-      padding: 10px;
-      font-size: 0.9rem;
-    }
+  .signup-section input,
+  .signup-section button[type="submit"] {
+    padding: 10px;
+    font-size: 0.9rem;
   }
-  .link-button {
-    background: none;
-    color: blue;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-    display: inline-block;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  .link-button:hover {
-    color: darkblue;
-  }
-  
-  .centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px; /* Adjust as needed */
-  }
-  
+}

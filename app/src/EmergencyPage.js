@@ -29,6 +29,23 @@ function EmergencyPage() {
           </li>
         </ul>
       </section>
+      <section className="disaster-prep-section">
+        <h2>Disaster Preparedness</h2>
+        <p>In case of natural disasters, it's crucial to have a plan. Know the evacuation routes, keep an emergency kit with essentials, and stay informed through reliable sources.</p>
+        <ul>
+          <li><h3>Earthquakes</h3><p>Drop, cover, and hold on. Stay indoors until the shaking stops.</p></li>
+          <li><h3>Floods</h3><p>Move to higher ground immediately. Avoid walking or driving through floodwaters.</p></li>
+          <li><h3>Fires</h3><p>Evacuate immediately if you see flames or smell smoke. Stay low to avoid smoke inhalation.</p></li>
+        </ul>
+      </section>
+      <section className="mental-health-section">
+        <h2>Mental Health Resources</h2>
+        <p>During emergencies, mental health is as important as physical health. Reach out to helplines, stay connected with loved ones, and seek professional help if needed.</p>
+        <ul>
+          <li><h3>Helpline</h3><p>National Helpline: 1-800-662-HELP (4357)</p></li>
+          <li><h3>Support Groups</h3><p>Join local or online support groups for emotional support during crises.</p></li>
+        </ul>
+      </section>
       <section className="help-numbers-section">
         <h2>International Help Numbers</h2>
         <div className="help-numbers-grid">

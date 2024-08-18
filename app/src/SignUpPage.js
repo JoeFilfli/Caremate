@@ -36,22 +36,22 @@ function SignUpPage() {
   const [country, setCountry] = useState(null);
   const client = generateClient();
 
-  const handleAlreadyHaveAccountClick = async () => {
-    try {
-      const user = await getCurrentUser();
-      if (user) {
-        // If the user is already signed in, navigate to the forum or another page
-        navigate('/forum');
-      } else {
-        // If the user is not signed in, navigate to the sign-in page
-        navigate('/signin');
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const checkCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        if (user) {
+          await signOut();
+        }
+      } catch (error) {
+        //continue 
       }
-    } catch (error) {
-      console.error('Error checking current user:', error);
-      // Navigate to sign-in page if there's an error
-      navigate('/signin');
-    }
-  };
+    };
+
+    checkCurrentUser();
+  }, []);
 
   const resizeImage = (file, maxWidth, maxHeight, callback) => {
     const img = document.createElement('img');
@@ -240,6 +240,8 @@ function SignUpPage() {
   return (
     <div className="signup-page">
       <section className="signup-section">
+      <h2>Join Us!</h2>
+      <p>Please select your role to get started</p>
         <div className="toggle-buttons">
           <button onClick={() => setIsSenior(true)} className={isSenior === true ? 'active' : ''}>
             Senior
@@ -330,11 +332,9 @@ function SignUpPage() {
           <button type="submit">Sign Up</button>
           {error && <p className="error">{error}</p>}
         </form>
-        <div className="centered">
-        <button onClick={handleAlreadyHaveAccountClick} className="link-button">
+        <Link to='/signin' className="link_to_signin">
           Already have an account? Sign in
-        </button>
-      </div>       
+        </Link>       
       </section>
     </div>
   );

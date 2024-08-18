@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
 import { requestsBySeniorIDAndId, responsesByRequestIDAndId, getUser } from './graphql/queries';
-import { updateRequest, updateUser } from './graphql/mutations';
+import { updateRequest, updateUser, deleteRequest } from './graphql/mutations';
 import './ViewResponses.css';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import ProfileModal from './ProfileModal';
@@ -92,7 +92,21 @@ function ViewResponses() {
       console.error('Error choosing volunteer:', error);
     }
   };
-  
+
+  const handleDeleteRequest = async (requestId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this request?");
+    if (confirmDelete) {
+      try {
+        await client.graphql({
+          query: deleteRequest,
+          variables: { input: { id: requestId } },
+        });
+        setRequests(requests.filter(request => request.id !== requestId));
+      } catch (error) {
+        console.error('Error deleting request:', error);
+      }
+    }
+  };
 
   const openEditRequestModal = (request) => {
     setCurrentRequest(request);
@@ -335,6 +349,12 @@ function ViewResponses() {
                 <>
                   <button onClick={() => openEditRequestModal(request)}>Edit Request</button>
                   <button onClick={() => openCloseRequestModal(request)}>Close Request</button>
+                  <button 
+                    className="delete-button" 
+                    onClick={() => handleDeleteRequest(request.id)}
+                  >
+                    Delete
+                  </button>
                 </>
               )}
               <h4>Responses:</h4>

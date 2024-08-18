@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { confirmSignUp, signIn } from 'aws-amplify/auth';
 import './ConfirmSignUpPage.css';
-import { signOut } from 'aws-amplify/auth';
 
-function ConfirmSignUpPage() {
+function ConfirmSignUpPage({ onConfirmSignUp }) { // Receive the onConfirmSignUp function as a prop
   const [confirmationCode, setConfirmationCode] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,14 +14,19 @@ function ConfirmSignUpPage() {
     e.preventDefault();
 
     try {
-      await confirmSignUp({username, confirmationCode});
-      await signOut();
-      const user = await signIn({ username, password });
-      
-      navigate('/forum')
+      await confirmSignUp({ username, confirmationCode });
+      await signIn({ username, password });
+
+      // After signing in, trigger the onConfirmSignUp to update the navbar
+      if (onConfirmSignUp) {
+        await onConfirmSignUp();
+      }
+
+      // Navigate to the forum or another protected page after confirmation
+      navigate('/forum');
     } catch (error) {
       console.error('Error confirming sign-up:', error);
-      alert('Error confirming sign-up. Please try again.')
+      alert('Error confirming sign-up. Please try again.');
     }
   };
 
